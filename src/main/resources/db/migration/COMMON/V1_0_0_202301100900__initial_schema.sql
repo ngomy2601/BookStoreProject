@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE roles
 (
-    id UUID    NOT NULL PRIMARY KEY,
+    id UUID    NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) NOT NULL
 );
 
@@ -14,7 +14,7 @@ CREATE TABLE users
     firstName VARCHAR(100),
     lastName VARCHAR(100),
     avatar bytea,
-    role_id serial NOT NULL,
+    role_id uuid NOT NULL,
     CONSTRAINT fk_roleId
         FOREIGN KEY(role_id)
             REFERENCES roles(id)

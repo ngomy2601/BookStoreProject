@@ -22,3 +22,18 @@ CREATE TABLE users
             REFERENCES roles(id)
 );
 
+CREATE TABLE books
+(
+    id   uuid         NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    create_at time_stamp NOT NULL,
+    update_at time_stamp NOT NULL,
+    image bytea,
+    user_id uuid,
+    CONSTRAINT fk_userId
+        FOREIGN KEY(user_id)
+            REFERENCES users(id)
+)
+

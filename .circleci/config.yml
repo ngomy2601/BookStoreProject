@@ -34,7 +34,7 @@ jobs:
       # run tests!
       - run:
           name: Running test
-          command: gradle test -springProfiles=circleci
+          command: gradle test -PspringProfiles=circleci
 
       # Upload test coverage
       - run:

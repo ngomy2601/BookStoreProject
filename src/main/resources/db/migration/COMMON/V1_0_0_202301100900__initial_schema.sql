@@ -28,7 +28,7 @@ CREATE TABLE books
     description VARCHAR(255),
     create_at timestamp NOT NULL,
     update_at timestamp NOT NULL,
-    image bytea,
+    image VARCHAR(1024),
     user_id uuid,
     CONSTRAINT fk_userId
         FOREIGN KEY(user_id)

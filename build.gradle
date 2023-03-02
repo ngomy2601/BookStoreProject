@@ -6,7 +6,7 @@ plugins {
     id 'jacoco'
 }
 
-group = 'com.example.bookstoreproject'
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 

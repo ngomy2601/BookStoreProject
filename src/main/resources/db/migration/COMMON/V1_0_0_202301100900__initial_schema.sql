@@ -1,11 +1,9 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-Create type role_name AS ENUM ('Admin', 'Contributor');
-
 CREATE TABLE roles
 (
-    id   uuid         NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name role_name
+    id serial    NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE users
@@ -16,7 +14,7 @@ CREATE TABLE users
     firstName VARCHAR(100),
     lastName VARCHAR(100),
     avatar bytea,
-    role_id uuid,
+    role_id serial NOT NULL,
     CONSTRAINT fk_roleId
         FOREIGN KEY(role_id)
             REFERENCES roles(id)
@@ -28,8 +26,8 @@ CREATE TABLE books
     title VARCHAR(255) NOT NULL,
     author VARCHAR(100) NOT NULL,
     description VARCHAR(255),
-    create_at time_stamp NOT NULL,
-    update_at time_stamp NOT NULL,
+    create_at timestamp NOT NULL,
+    update_at timestamp NOT NULL,
     image bytea,
     user_id uuid,
     CONSTRAINT fk_userId

@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static com.example.bookstoreproject.persistence.user.UserEntityMapper.*;
 import static org.apache.commons.collections4.IterableUtils.toList;
@@ -21,6 +23,10 @@ public class UserStore {
 
     public User createUser(final User user) {
         return toUser(userRepository.save(toUserEntity(user)));
+    }
+
+    public Optional<User> findUserById(final UUID id) {
+        return userRepository.findById(id).map(UserEntityMapper::toUser);
     }
 
 }

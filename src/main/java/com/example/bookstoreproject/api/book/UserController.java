@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTO;
 import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTOs;
@@ -16,9 +17,15 @@ import static com.example.bookstoreproject.domain.user.UserDomainMapper.toUser;
 public class UserController {
     private final UserService userService;
 
+
     @GetMapping
     public List<UserDTO> findAll() {
         return toUserDTOs(userService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO findUserById(@PathVariable UUID id) {
+        return toUserDTO(userService.findUserById(id));
     }
 
     @PostMapping("/create")

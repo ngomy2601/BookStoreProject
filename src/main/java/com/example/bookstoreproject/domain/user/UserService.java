@@ -5,6 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+
+import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -16,5 +20,9 @@ public class UserService {
 
     public User createUser(final User user) {
         return userStore.createUser(user);
+    }
+
+    public User findUserById(final UUID id) {
+        return userStore.findUserById(id).orElseThrow(supplyUserNotFound(id));
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bookstoreproject.persistence;
+package com.example.bookstoreproject.persistence.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

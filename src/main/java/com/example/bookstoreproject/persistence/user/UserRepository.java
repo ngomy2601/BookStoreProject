@@ -1,4 +1,4 @@
-package com.example.bookstoreproject.persistence;
+package com.example.bookstoreproject.persistence.user;
 
 import org.springframework.data.repository.CrudRepository;
 

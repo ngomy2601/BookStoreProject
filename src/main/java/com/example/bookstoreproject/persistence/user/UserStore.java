@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.example.bookstoreproject.persistence.user.UserEntityMapper.toUsers;
+import static com.example.bookstoreproject.persistence.user.UserEntityMapper.*;
 import static org.apache.commons.collections4.IterableUtils.toList;
 
 @Repository
@@ -17,6 +17,10 @@ public class UserStore {
 
     public List<User> findAll() {
         return toUsers(toList(userRepository.findAll()));
+    }
+
+    public User createUser(final User user) {
+        return toUser(userRepository.save(toUserEntity(user)));
     }
 
 }

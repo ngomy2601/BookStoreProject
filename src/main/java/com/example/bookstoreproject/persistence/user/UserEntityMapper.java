@@ -29,4 +29,16 @@ public class UserEntityMapper {
                 .map(UserEntityMapper::toUser)
                 .toList();
     }
+
+    public static UserEntity toUserEntity(final User user) {
+        return UserEntity.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .avatar(user.getAvatar())
+                .role_id(user.getRole_id())
+                .build();
+    }
 }

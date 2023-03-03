@@ -13,4 +13,8 @@ public class UserService {
     public List<User> findAll() {
         return userStore.findAll();
     }
+
+    public User createUser(final User user) {
+        return userStore.createUser(user);
+    }
 }

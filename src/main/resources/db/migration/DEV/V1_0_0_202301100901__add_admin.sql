@@ -1,1 +1,0 @@
-INSERT INTO users(username, password, firstName, lastName, role_id) VALUES ('mytesting','encrypted_password','My','Ngo','52b7c1c0-2432-414d-8839-28f58761567a')

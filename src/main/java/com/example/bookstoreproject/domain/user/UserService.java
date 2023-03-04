@@ -25,4 +25,17 @@ public class UserService {
     public User findUserById(final UUID id) {
         return userStore.findUserById(id).orElseThrow(supplyUserNotFound(id));
     }
+
+    public User updateUser(final UUID id, final User updatedUser) {
+        User user = findUserById(id);
+
+        user.setUsername(updatedUser.getUsername());
+        user.setPassword(updatedUser.getPassword());
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setAvatar(user.getAvatar());
+        user.setRole_id(updatedUser.getRole_id());
+
+        return userStore.updateUser(user);
+    }
 }

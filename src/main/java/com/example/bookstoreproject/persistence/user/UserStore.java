@@ -29,4 +29,7 @@ public class UserStore {
         return userRepository.findById(id).map(UserEntityMapper::toUser);
     }
 
+    public User updateUser(final User user) {
+        return toUser(userRepository.save(toUserEntity(user)));
+    }
 }

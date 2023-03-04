@@ -32,4 +32,8 @@ public class UserController {
     public UserDTO createUser(final @RequestBody UserDTO userDTO) {
         return toUserDTO(userService.createUser(toUser(userDTO)));
     }
+
+    public UserDTO updateUser(final @RequestBody UserDTO userDTO, final @PathVariable UUID id) {
+        return toUserDTO(userService.updateUser(id, toUser(userDTO)));
+    }
 }

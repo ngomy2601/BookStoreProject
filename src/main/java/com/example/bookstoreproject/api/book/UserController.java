@@ -33,6 +33,7 @@ public class UserController {
         return toUserDTO(userService.createUser(toUser(userDTO)));
     }
 
+    @PatchMapping("/update/{id}")
     public UserDTO updateUser(final @RequestBody UserDTO userDTO, final @PathVariable UUID id) {
         return toUserDTO(userService.updateUser(id, toUser(userDTO)));
     }

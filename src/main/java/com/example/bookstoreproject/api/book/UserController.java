@@ -37,4 +37,13 @@ public class UserController {
     public UserDTO updateUser(final @RequestBody UserDTO userDTO, final @PathVariable UUID id) {
         return toUserDTO(userService.updateUser(id, toUser(userDTO)));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public UserDTO deleteUser(final @PathVariable UUID id) {
+        final UserDTO deletedUser = toUserDTO(userService.findUserById(id));
+
+        userService.deleteUser(id);
+
+        return deletedUser;
+    }
 }

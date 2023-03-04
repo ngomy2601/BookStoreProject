@@ -38,4 +38,8 @@ public class UserService {
 
         return userStore.updateUser(user);
     }
+
+    public void deleteUser(final UUID id) {
+        userStore.deleteUser(id);
+    }
 }

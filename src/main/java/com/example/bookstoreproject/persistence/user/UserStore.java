@@ -32,4 +32,8 @@ public class UserStore {
     public User updateUser(final User user) {
         return toUser(userRepository.save(toUserEntity(user)));
     }
+
+    public void deleteUser(final UUID id) {
+        userRepository.deleteById(id);
+    }
 }

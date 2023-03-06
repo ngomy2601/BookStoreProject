@@ -28,7 +28,7 @@ public class UserController {
         return toUserDTO(userService.findUserById(id));
     }
 
-    @PostMapping("")
+    @PostMapping
     public UserDTO createUser(final @RequestBody UserDTO userDTO) {
         return toUserDTO(userService.createUser(toUser(userDTO)));
     }

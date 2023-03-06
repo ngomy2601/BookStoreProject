@@ -19,7 +19,7 @@ public class UserEntityMapper {
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
                 .avatar(userEntity.getAvatar())
-                .role_id(userEntity.getRole_id())
+                .role_id(userEntity.getRoleId())
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class UserEntityMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .avatar(user.getAvatar())
-                .role_id(user.getRole_id())
+                .roleId(user.getRole_id())
                 .build();
     }
 }

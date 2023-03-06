@@ -18,5 +18,5 @@ public class User {
     private String firstName;
     private String lastName;
     private String avatar;
-    private String role_id;
+    private String roleId;
 }

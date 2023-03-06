@@ -34,12 +34,13 @@ public class UserService {
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
         user.setAvatar(user.getAvatar());
-        user.setRole_id(updatedUser.getRole_id());
+        user.setRoleId(updatedUser.getRoleId());
 
         return userStore.updateUser(user);
     }
 
     public void deleteUser(final UUID id) {
+        final User user = findUserById(id);
         userStore.deleteUser(id);
     }
 }

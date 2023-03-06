@@ -47,4 +47,5 @@ class UserStoreTest {
         assertEquals(actual.getAvatar(), expected.getAvatar());
         assertEquals(actual.getRole_id(), expected.getRoleId());
     }
+    
 }

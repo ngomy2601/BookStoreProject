@@ -48,4 +48,16 @@ class UserStoreTest {
         assertEquals(actual.getRoleId(), expected.getRoleId());
     }
 
+    @Test
+    void shouldUpdateUser_OK() {
+        final var expected = buidUserEntity();
+        final var actual = userStore.updateUser(toUser(expected));
+        assertEquals(actual.getId(), expected.getId());
+        assertEquals(actual.getUsername(), expected.getUsername());
+        assertEquals(actual.getPassword(), expected.getPassword());
+        assertEquals(actual.getFirstName(), expected.getFirstName());
+        assertEquals(actual.getLastName(), expected.getLastName());
+        assertEquals(actual.getAvatar(), expected.getAvatar());
+        assertEquals(actual.getRoleId(), expected.getRoleId());
+    }
 }

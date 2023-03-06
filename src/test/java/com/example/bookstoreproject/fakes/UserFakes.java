@@ -32,12 +32,12 @@ public class UserFakes {
     public static UserEntity buidUserEntity(){
         return UserEntity.builder()
                 .id(UUID.randomUUID())
-                .username(randomAlphabetic(3,10))
-                .password(randomAlphabetic(3,10))
-                .firstName(randomAlphabetic(3,10))
-                .lastName(randomAlphabetic(3,10))
-                .avatar(randomAlphabetic(3,10))
-                .role_id("7f146aeb-49cf-4e5c-ae27-7d8a290764d2")
+                .username(randomAlphabetic(3, 10))
+                .password(randomAlphabetic(3, 10))
+                .firstName(randomAlphabetic(3, 10))
+                .lastName(randomAlphabetic(3, 10))
+                .avatar(randomAlphabetic(3, 10))
+                .roleId(UUID.randomUUID().toString())
                 .build();
     }
 

@@ -29,7 +29,7 @@ public class UserFakes {
                 .toList();
     }
 
-    public static UserEntity buidUserEntity(){
+    public static UserEntity buildUserEntity() {
         return UserEntity.builder()
                 .id(UUID.randomUUID())
                 .username(randomAlphabetic(3, 10))
@@ -42,8 +42,8 @@ public class UserFakes {
     }
 
     public static List<UserEntity> builderUserEntities(){
-        return IntStream.range(1,5)
-                .mapToObj(_ignored -> buidUserEntity())
+        return IntStream.range(1, 5)
+                .mapToObj(_ignored -> buildUserEntity())
                 .toList();
     }
 }

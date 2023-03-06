@@ -6,10 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.example.bookstoreproject.fakes.UserFakes.buidUserEntity;
+import static com.example.bookstoreproject.fakes.UserFakes.buildUserEntity;
 import static com.example.bookstoreproject.fakes.UserFakes.builderUserEntities;
 import static com.example.bookstoreproject.persistence.user.UserEntityMapper.toUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,8 +36,11 @@ class UserStoreTest {
     }
 
     @Test
-    void shouldCreateUser_OK(){
-        final var expected = buidUserEntity();
+    void shouldCreateUser_OK() {
+        final var expected = buildUserEntity();
+        when(userRepository.save(any(UserEntity.class)))
+                .thenReturn(expected);
+
         final var actual = userStore.createUser(toUser(expected));
 
         assertEquals(actual.getId(), expected.getId());
@@ -50,7 +54,9 @@ class UserStoreTest {
 
     @Test
     void shouldUpdateUser_OK() {
-        final var expected = buidUserEntity();
+        final var expected = buildUserEntity();
+        when(userRepository.save(any(UserEntity.class)))
+                .thenReturn(expected);
         final var actual = userStore.updateUser(toUser(expected));
         assertEquals(actual.getId(), expected.getId());
         assertEquals(actual.getUsername(), expected.getUsername());
@@ -59,5 +65,12 @@ class UserStoreTest {
         assertEquals(actual.getLastName(), expected.getLastName());
         assertEquals(actual.getAvatar(), expected.getAvatar());
         assertEquals(actual.getRoleId(), expected.getRoleId());
+    }
+
+    @Test
+    void shouldDeleteUser_OK() {
+        final var user = buildUserEntity();
+        userStore.deleteUser(user.getId());
+
     }
 }

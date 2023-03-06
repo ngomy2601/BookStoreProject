@@ -6,16 +6,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.example.bookstoreproject.fakes.UserFakes.buildUserEntity;
-import static com.example.bookstoreproject.fakes.UserFakes.builderUserEntities;
-import static com.example.bookstoreproject.persistence.user.UserEntityMapper.toUser;
+import static com.example.bookstoreproject.fakes.UserFakes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-
 class UserStoreTest {
     @Mock
     private UserRepository userRepository;
@@ -38,10 +35,9 @@ class UserStoreTest {
     @Test
     void shouldCreateUser_OK() {
         final var expected = buildUserEntity();
-        when(userRepository.save(any(UserEntity.class)))
-                .thenReturn(expected);
+        when(userRepository.save(any())).thenReturn(expected);
 
-        final var actual = userStore.createUser(toUser(expected));
+        final var actual = userStore.createUser(buildUser());
 
         assertEquals(actual.getId(), expected.getId());
         assertEquals(actual.getUsername(), expected.getUsername());
@@ -55,9 +51,9 @@ class UserStoreTest {
     @Test
     void shouldUpdateUser_OK() {
         final var expected = buildUserEntity();
-        when(userRepository.save(any(UserEntity.class)))
-                .thenReturn(expected);
-        final var actual = userStore.updateUser(toUser(expected));
+        when(userRepository.save(any())).thenReturn(expected);
+
+        final var actual = userStore.updateUser(buildUser());
         assertEquals(actual.getId(), expected.getId());
         assertEquals(actual.getUsername(), expected.getUsername());
         assertEquals(actual.getPassword(), expected.getPassword());

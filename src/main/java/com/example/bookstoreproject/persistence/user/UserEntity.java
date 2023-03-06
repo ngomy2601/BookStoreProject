@@ -29,6 +29,7 @@ public class UserEntity {
     private String lastName;
 
     private String avatar;
-    private String role_id;
+    @Column(name = "role_id")
+    private String roleId;
 
 }

@@ -17,7 +17,7 @@ public class UserDTOMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .avatar(user.getAvatar())
-                .role_id(user.getRole_id())
+                .roleId(user.getRoleId())
                 .build();
     }
 

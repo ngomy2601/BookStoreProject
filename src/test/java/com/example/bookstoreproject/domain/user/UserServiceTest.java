@@ -7,6 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static com.example.bookstoreproject.fakes.UserFakes.buildUser;
 import static com.example.bookstoreproject.fakes.UserFakes.buildUsers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -42,5 +45,32 @@ class UserServiceTest {
 
 
         verify(userStore).findAll();
+    }
+
+    @Test
+    void shouldCreateUser_OK() {
+        final var user = buildUser();
+        when(userStore.createUser(user)).thenReturn(user);
+        final var createdUser = userService.createUser(user);
+        assertEquals(user, createdUser);
+        verify(userStore).createUser(user);
+    }
+
+    @Test
+    void shouldUpdateUser_OK() {
+        final var user = buildUser();
+        final var updatedUser = buildUser();
+        updatedUser.setId(user.getId());
+
+        when(userStore.findUserById(user.getId())).thenReturn(Optional.of(user));
+        when(userStore.updateUser(user)).thenReturn(updatedUser);
+        final var expected = userService.updateUser(user.getId(), user);
+        assertEquals(expected.getId(), updatedUser.getId());
+        assertEquals(expected.getUsername(), updatedUser.getUsername());
+        assertEquals(expected.getPassword(), updatedUser.getPassword());
+        assertEquals(expected.getFirstName(), updatedUser.getFirstName());
+        assertEquals(expected.getLastName(), updatedUser.getLastName());
+        assertEquals(expected.getAvatar(), updatedUser.getAvatar());
+        assertEquals(expected.getRoleId(), updatedUser.getRoleId());
     }
 }

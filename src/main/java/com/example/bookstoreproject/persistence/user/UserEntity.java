@@ -30,6 +30,6 @@ public class UserEntity {
 
     private String avatar;
     @Column(name = "role_id")
-    private String roleId;
+    private UUID roleId;
 
 }

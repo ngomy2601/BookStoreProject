@@ -11,7 +11,7 @@ public class UserDomainMapper {
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .avatar(userDTO.getAvatar())
-                .roleId(userDTO.getRole_id())
+                .roleId(userDTO.getRoleId())
                 .build();
     }
 

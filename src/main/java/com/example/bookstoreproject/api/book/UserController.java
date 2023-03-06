@@ -23,22 +23,22 @@ public class UserController {
         return toUserDTOs(userService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public UserDTO findUserById(@PathVariable UUID id) {
         return toUserDTO(userService.findUserById(id));
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public UserDTO createUser(final @RequestBody UserDTO userDTO) {
         return toUserDTO(userService.createUser(toUser(userDTO)));
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("{id}")
     public UserDTO updateUser(final @RequestBody UserDTO userDTO, final @PathVariable UUID id) {
         return toUserDTO(userService.updateUser(id, toUser(userDTO)));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public UserDTO deleteUser(final @PathVariable UUID id) {
         final UserDTO deletedUser = toUserDTO(userService.findUserById(id));
 

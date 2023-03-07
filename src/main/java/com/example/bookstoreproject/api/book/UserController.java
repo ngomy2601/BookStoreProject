@@ -39,11 +39,8 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public UserDTO deleteUser(final @PathVariable UUID id) {
+    public void deleteUser(final @PathVariable UUID id) {
         final UserDTO deletedUser = toUserDTO(userService.findUserById(id));
-
         userService.deleteUser(id);
-
-        return deletedUser;
     }
 }

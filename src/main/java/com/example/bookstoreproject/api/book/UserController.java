@@ -25,22 +25,21 @@ public class UserController {
 
     @GetMapping("{id}")
     public UserDTO findById(@PathVariable UUID id) {
-        return toUserDTO(userService.findUserById(id));
+        return toUserDTO(userService.findById(id));
     }
 
     @PostMapping
     public UserDTO create(final @RequestBody UserDTO userDTO) {
-        return toUserDTO(userService.createUser(toUser(userDTO)));
+        return toUserDTO(userService.create(toUser(userDTO)));
     }
 
     @PutMapping("{id}")
     public UserDTO update(final @PathVariable UUID id, final @RequestBody UserDTO userDTO) {
-        return toUserDTO(userService.updateUser(id, toUser(userDTO)));
+        return toUserDTO(userService.update(id, toUser(userDTO)));
     }
 
     @DeleteMapping("{id}")
     public void delete(final @PathVariable UUID id) {
-        final UserDTO deletedUser = toUserDTO(userService.findUserById(id));
-        userService.deleteUser(id);
+        userService.delete(id);
     }
 }

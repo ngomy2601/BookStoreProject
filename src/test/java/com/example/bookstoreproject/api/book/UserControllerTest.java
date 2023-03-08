@@ -52,7 +52,7 @@ class UserControllerTest {
     @Test
     void shouldCreateUser_OK() throws Exception{
         final var user = buildUser();
-        when(userService.createUser(any(User.class))).thenReturn(user);
+        when(userService.create(any(User.class))).thenReturn(user);
 
     }
 

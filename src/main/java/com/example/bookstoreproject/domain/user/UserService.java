@@ -18,16 +18,16 @@ public class UserService {
         return userStore.findAll();
     }
 
-    public User createUser(final User user) {
+    public User create(final User user) {
         return userStore.createUser(user);
     }
 
-    public User findUserById(final UUID id) {
+    public User findById(final UUID id) {
         return userStore.findUserById(id).orElseThrow(supplyUserNotFound(id));
     }
 
-    public User updateUser(final UUID id, final User updatedUser) {
-        User user = findUserById(id);
+    public User update(final UUID id, final User updatedUser) {
+        User user = findById(id);
 
         user.setUsername(updatedUser.getUsername());
         user.setPassword(updatedUser.getPassword());
@@ -39,8 +39,8 @@ public class UserService {
         return userStore.updateUser(user);
     }
 
-    public void deleteUser(final UUID id) {
-        final User user = findUserById(id);
+    public void delete(final UUID id) {
+        final User user = findById(id);
         userStore.deleteUser(id);
     }
 }

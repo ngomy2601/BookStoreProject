@@ -21,19 +21,19 @@ public class UserStore {
         return toUsers(toList(userRepository.findAll()));
     }
 
-    public User createUser(final User user) {
+    public User create(final User user) {
         return toUser(userRepository.save(toUserEntity(user)));
     }
 
-    public Optional<User> findUserById(final UUID id) {
+    public Optional<User> findById(final UUID id) {
         return userRepository.findById(id).map(UserEntityMapper::toUser);
     }
 
-    public User updateUser(final User user) {
+    public User update(final User user) {
         return toUser(userRepository.save(toUserEntity(user)));
     }
 
-    public void deleteUser(final UUID id) {
+    public void delete(final UUID id) {
         userRepository.deleteById(id);
     }
 }

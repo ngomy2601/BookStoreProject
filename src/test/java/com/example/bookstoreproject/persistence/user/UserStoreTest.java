@@ -37,7 +37,7 @@ class UserStoreTest {
         final var expected = buildUserEntity();
         when(userRepository.save(any())).thenReturn(expected);
 
-        final var actual = userStore.createUser(buildUser());
+        final var actual = userStore.create(buildUser());
 
         assertEquals(actual.getId(), expected.getId());
         assertEquals(actual.getUsername(), expected.getUsername());
@@ -53,7 +53,7 @@ class UserStoreTest {
         final var expected = buildUserEntity();
         when(userRepository.save(any())).thenReturn(expected);
 
-        final var actual = userStore.updateUser(buildUser());
+        final var actual = userStore.update(buildUser());
         assertEquals(actual.getId(), expected.getId());
         assertEquals(actual.getUsername(), expected.getUsername());
         assertEquals(actual.getPassword(), expected.getPassword());
@@ -66,7 +66,7 @@ class UserStoreTest {
     @Test
     void shouldDeleteUser_OK() {
         final var user = buildUserEntity();
-        userStore.deleteUser(user.getId());
+        userStore.delete(user.getId());
 
     }
 }

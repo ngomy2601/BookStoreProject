@@ -50,10 +50,10 @@ class UserServiceTest {
     @Test
     void shouldCreateUser_OK() {
         final var user = buildUser();
-        when(userStore.createUser(user)).thenReturn(user);
+        when(userStore.create(user)).thenReturn(user);
         final var createdUser = userService.create(user);
         assertEquals(user, createdUser);
-        verify(userStore).createUser(user);
+        verify(userStore).create(user);
     }
 
     @Test
@@ -62,8 +62,8 @@ class UserServiceTest {
         final var updatedUser = buildUser();
         updatedUser.setId(user.getId());
 
-        when(userStore.findUserById(user.getId())).thenReturn(Optional.of(user));
-        when(userStore.updateUser(user)).thenReturn(updatedUser);
+        when(userStore.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userStore.update(user)).thenReturn(updatedUser);
         final var expected = userService.update(user.getId(), user);
         assertEquals(expected.getId(), updatedUser.getId());
         assertEquals(expected.getUsername(), updatedUser.getUsername());

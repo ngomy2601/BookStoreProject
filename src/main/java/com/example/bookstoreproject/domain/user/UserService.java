@@ -19,11 +19,11 @@ public class UserService {
     }
 
     public User create(final User user) {
-        return userStore.createUser(user);
+        return userStore.create(user);
     }
 
     public User findById(final UUID id) {
-        return userStore.findUserById(id).orElseThrow(supplyUserNotFound(id));
+        return userStore.findById(id).orElseThrow(supplyUserNotFound(id));
     }
 
     public User update(final UUID id, final User updatedUser) {
@@ -36,11 +36,11 @@ public class UserService {
         user.setAvatar(user.getAvatar());
         user.setRoleId(updatedUser.getRoleId());
 
-        return userStore.updateUser(user);
+        return userStore.update(user);
     }
 
     public void delete(final UUID id) {
         final User user = findById(id);
-        userStore.deleteUser(id);
+        userStore.delete(id);
     }
 }

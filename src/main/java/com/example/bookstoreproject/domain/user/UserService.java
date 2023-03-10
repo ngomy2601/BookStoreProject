@@ -5,9 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.bookstoreproject.api.user.UserValidation.validateUserUpdate;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
+import static com.example.bookstoreproject.domain.user.UserError.supplyUsernameExisted;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +30,31 @@ public class UserService {
         return userStore.findById(id).orElseThrow(supplyUserNotFound(id));
     }
 
+    public User findByUsername(final String username) {
+        return userStore.findByUsername(username).orElseThrow(supplyUserNotFound(username));
+    }
+
+    public void checkExistUsername(final String username) {
+        final Optional<User> existUser = userStore.findByUsername(username);
+        if (existUser.isPresent()) {
+            throw supplyUsernameExisted(username).get();
+        }
+    }
+
     public User update(final UUID id, final User updatedUser) {
         final User user = findById(id);
 
-        user.setUsername(updatedUser.getUsername());
-        user.setPassword(updatedUser.getPassword());
+        validateUserUpdate(updatedUser);
+        if (!(user.getUsername().equals(updatedUser.getUsername()))) {
+            checkExistUsername(updatedUser.getUsername());
+            user.setUsername(updatedUser.getUsername());
+        }
+        if (isNotBlank(updatedUser.getPassword())) {
+            user.setPassword(updatedUser.getPassword());
+        }
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
-        user.setAvatar(user.getAvatar());
+        user.setAvatar(updatedUser.getAvatar());
         user.setRoleId(updatedUser.getRoleId());
 
         return userStore.update(user);

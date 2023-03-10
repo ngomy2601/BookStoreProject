@@ -40,7 +40,6 @@ public class UserService {
     }
 
     public void delete(final UUID id) {
-        final User user = findById(id);
         userStore.delete(id);
     }
 }

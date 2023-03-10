@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.bookstoreproject.api.user.UserValidation.validateUserCreation;
 import static com.example.bookstoreproject.api.user.UserValidation.validateUserUpdate;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUsernameExisted;
@@ -23,6 +24,8 @@ public class UserService {
     }
 
     public User create(final User user) {
+        validateUserCreation(user);
+        checkExistUsername(user.getUsername());
         return userStore.create(user);
     }
 

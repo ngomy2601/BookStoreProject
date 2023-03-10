@@ -1,4 +1,4 @@
-package com.example.bookstoreproject.api.book;
+package com.example.bookstoreproject.api.user;
 
 import com.example.bookstoreproject.domain.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;

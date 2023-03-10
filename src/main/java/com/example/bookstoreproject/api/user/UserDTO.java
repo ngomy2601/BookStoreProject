@@ -1,4 +1,4 @@
-package com.example.bookstoreproject.api.book;
+package com.example.bookstoreproject.api.user;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.example.bookstoreproject.domain.user;
 
-import com.example.bookstoreproject.api.book.UserDTO;
+import com.example.bookstoreproject.api.user.UserDTO;
 
 public class UserDomainMapper {
     public static User toUser(final UserDTO userDTO) {

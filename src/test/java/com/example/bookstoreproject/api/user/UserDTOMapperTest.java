@@ -1,9 +1,9 @@
-package com.example.bookstoreproject.api.book;
+package com.example.bookstoreproject.api.user;
 
 import org.junit.jupiter.api.Test;
 
-import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTO;
-import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTOs;
+import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTO;
+import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTOs;
 import static com.example.bookstoreproject.fakes.UserFakes.buildUser;
 import static com.example.bookstoreproject.fakes.UserFakes.buildUsers;
 import static org.junit.jupiter.api.Assertions.assertEquals;

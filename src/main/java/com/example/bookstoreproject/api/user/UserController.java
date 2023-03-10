@@ -1,4 +1,4 @@
-package com.example.bookstoreproject.api.book;
+package com.example.bookstoreproject.api.user;
 
 import com.example.bookstoreproject.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTO;
-import static com.example.bookstoreproject.api.book.UserDTOMapper.toUserDTOs;
+import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTO;
+import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTOs;
 import static com.example.bookstoreproject.domain.user.UserDomainMapper.toUser;
 
 @RestController

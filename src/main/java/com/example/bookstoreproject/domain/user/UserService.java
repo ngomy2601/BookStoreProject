@@ -27,7 +27,7 @@ public class UserService {
     }
 
     public User update(final UUID id, final User updatedUser) {
-        User user = findById(id);
+        final User user = findById(id);
 
         user.setUsername(updatedUser.getUsername());
         user.setPassword(updatedUser.getPassword());

@@ -41,7 +41,7 @@ public class UserFakes {
                 .build();
     }
 
-    public static List<UserEntity> builderUserEntities(){
+    public static List<UserEntity> builderUserEntities() {
         return IntStream.range(1, 5)
                 .mapToObj(_ignored -> buildUserEntity())
                 .toList();

@@ -67,7 +67,6 @@ class UserControllerTest {
     @Test
     void shouldUpdateUser_OK() throws Exception {
         final var user = buildUser();
-//        when(userService.update(any(), argThat(x -> x.getId().equals(user.getId())))).thenReturn(user);
         when(userService.update(any(), any())).thenReturn(user);
         this.mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + user.getId()).contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(user)))

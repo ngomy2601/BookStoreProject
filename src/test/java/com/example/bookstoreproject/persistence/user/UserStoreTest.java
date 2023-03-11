@@ -51,6 +51,22 @@ class UserStoreTest {
     }
 
     @Test
+    void shouldFindByUsername_OK() {
+        final var user = buildUserEntity();
+        final var foundUser = Optional.of(user);
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(foundUser);
+        final var actual = userStore.findByUsername(user.getUsername()).get();
+        final var expected = foundUser.get();
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getUsername(), actual.getUsername());
+        assertEquals(expected.getFirstName(), actual.getFirstName());
+        assertEquals(expected.getLastName(), actual.getLastName());
+        assertEquals(expected.getAvatar(), actual.getAvatar());
+        assertEquals(expected.getRoleId(), actual.getRoleId());
+        verify(userRepository).findByUsername(user.getUsername());
+    }
+
+    @Test
     void shouldCreateUser_OK() {
         final var expected = buildUserEntity();
         when(userRepository.save(any())).thenReturn(expected);

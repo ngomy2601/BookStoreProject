@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.example.bookstoreproject.fakes.UserFakes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,6 +32,22 @@ class UserStoreTest {
         assertEquals(expected.size(), userStore.findAll().size());
 
         verify(userRepository).findAll();
+    }
+
+    @Test
+    void shouldFindById_OK() {
+        final var user = buildUserEntity();
+        final var foundUser = Optional.of(user);
+        when(userRepository.findById(user.getId())).thenReturn(foundUser);
+        final var actual = userStore.findById(user.getId()).get();
+        final var expected = foundUser.get();
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getUsername(), actual.getUsername());
+        assertEquals(expected.getFirstName(), actual.getFirstName());
+        assertEquals(expected.getLastName(), actual.getLastName());
+        assertEquals(expected.getAvatar(), actual.getAvatar());
+        assertEquals(expected.getRoleId(), actual.getRoleId());
+        verify(userRepository).findById(user.getId());
     }
 
     @Test

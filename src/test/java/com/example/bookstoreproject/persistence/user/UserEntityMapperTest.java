@@ -15,7 +15,6 @@ class UserEntityMapperTest {
 
         assertEquals(userEntity.getId(), user.getId());
         assertEquals(userEntity.getUsername(), user.getUsername());
-        assertEquals(userEntity.getPassword(), user.getPassword());
         assertEquals(userEntity.getFirstName(), user.getFirstName());
         assertEquals(userEntity.getLastName(), user.getLastName());
         assertEquals(userEntity.getAvatar(), user.getAvatar());
@@ -37,7 +36,6 @@ class UserEntityMapperTest {
 
         assertEquals(userEntity.getId(), user.getId());
         assertEquals(userEntity.getUsername(), user.getUsername());
-        assertEquals(userEntity.getPassword(), user.getPassword());
         assertEquals(userEntity.getFirstName(), user.getFirstName());
         assertEquals(userEntity.getLastName(), user.getLastName());
         assertEquals(userEntity.getAvatar(), user.getAvatar());

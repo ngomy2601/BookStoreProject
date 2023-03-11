@@ -12,19 +12,19 @@ VALUES ('8720c2d6-f7d2-4ada-b0da-ee62a7640c6d', 'ADMIN'),
 
 CREATE TABLE users
 (
-    id        UUID        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
-    username  VARCHAR(50) NOT NULL,
-    password  VARCHAR(50) NOT NULL,
-    firstName VARCHAR(100),
-    lastName  VARCHAR(100),
-    avatar    VARCHAR(1024),
-    role_id   UUID        NOT NULL,
+    id         UUID        NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
+    username   VARCHAR(50) NOT NULL,
+    password   VARCHAR(50) NOT NULL,
+    first_name VARCHAR(100),
+    last_name  VARCHAR(100),
+    avatar     VARCHAR(1024),
+    role_id    UUID        NOT NULL,
     CONSTRAINT fk_roleId
         FOREIGN KEY (role_id)
             REFERENCES roles (id)
 );
 
-INSERT INTO users(id, username, password, firstName, lastName, role_id)
+INSERT INTO users(id, username, password, first_name, last_name, role_id)
 VALUES ('6adfa7f8-a69e-4b8a-aa6a-049d6eaf7afb', 'admin01', 'encrypted_password', 'My', 'Ngo',
         '8720c2d6-f7d2-4ada-b0da-ee62a7640c6d');
 

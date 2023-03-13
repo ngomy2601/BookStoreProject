@@ -56,7 +56,12 @@ class UserServiceTest {
         final var user = buildUser();
         when(userStore.create(user)).thenReturn(user);
         final var createdUser = userService.create(user);
-        assertEquals(user, createdUser);
+        assertEquals(user.getId(), createdUser.getId());
+        assertEquals(user.getUsername(), createdUser.getUsername());
+        assertEquals(user.getFirstName(), createdUser.getFirstName());
+        assertEquals(user.getLastName(), createdUser.getLastName());
+        assertEquals(user.getAvatar(), createdUser.getAvatar());
+        assertEquals(user.getRoleId(), createdUser.getRoleId());
         verify(userStore).create(user);
     }
 

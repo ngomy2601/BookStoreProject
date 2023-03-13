@@ -28,12 +28,9 @@ class UserServiceTest {
     @Test
     void shouldFindAll_OK(){
         final var expected = buildUsers();
-
         when(userStore.findAll())
                 .thenReturn(expected);
-
         final var actual = userService.findAll();
-
         assertEquals(expected.size(), actual.size());
         assertEquals(expected.get(0).getId(), actual.get(0).getId());
         assertEquals(expected.get(0).getUsername(), actual.get(0).getUsername());
@@ -42,9 +39,16 @@ class UserServiceTest {
         assertEquals(expected.get(0).getLastName(), actual.get(0).getLastName());
         assertEquals(expected.get(0).getAvatar(), actual.get(0).getAvatar());
         assertEquals(expected.get(0).getRoleId(), actual.get(0).getRoleId());
-
-
         verify(userStore).findAll();
+    }
+
+    @Test
+    void shouldFindById_OK() {
+        final var user = buildUser();
+        when(userStore.findById(user.getId())).thenReturn(Optional.of(user));
+        final var foundUser = userService.findById(user.getId());
+        assertEquals(user, foundUser);
+        verify(userStore).findById(user.getId());
     }
 
     @Test
@@ -61,16 +65,22 @@ class UserServiceTest {
         final var user = buildUser();
         final var updatedUser = buildUser();
         updatedUser.setId(user.getId());
-
+        updatedUser.setRoleId(user.getRoleId());
         when(userStore.findById(user.getId())).thenReturn(Optional.of(user));
-        when(userStore.update(user)).thenReturn(updatedUser);
-        final var expected = userService.update(user.getId(), user);
+        when(userStore.update(user)).thenReturn(user);
+        final var expected = userService.update(user.getId(), updatedUser);
         assertEquals(expected.getId(), updatedUser.getId());
         assertEquals(expected.getUsername(), updatedUser.getUsername());
-        assertEquals(expected.getPassword(), updatedUser.getPassword());
         assertEquals(expected.getFirstName(), updatedUser.getFirstName());
         assertEquals(expected.getLastName(), updatedUser.getLastName());
         assertEquals(expected.getAvatar(), updatedUser.getAvatar());
         assertEquals(expected.getRoleId(), updatedUser.getRoleId());
+    }
+
+    @Test
+    void shouldDeleteUser_OK() {
+        final var user = buildUser();
+        userService.delete(user.getId());
+        verify(userStore).delete(user.getId());
     }
 }

@@ -68,9 +68,9 @@ class UserServiceTest {
     @Test
     void shouldUpdateUser_OK() {
         final var user = buildUser();
-        final var updatedUser = buildUser();
-        updatedUser.setId(user.getId());
-        updatedUser.setRoleId(user.getRoleId());
+        final var updatedUser = buildUser()
+                .withId(user.getId())
+                .withRoleId(user.getRoleId());
         when(userStore.findById(user.getId())).thenReturn(Optional.of(user));
         when(userStore.update(user)).thenReturn(user);
         final var expected = userService.update(user.getId(), updatedUser);

@@ -12,6 +12,7 @@ import static com.example.bookstoreproject.api.user.UserValidation.validateUserC
 import static com.example.bookstoreproject.api.user.UserValidation.validateUserUpdate;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUsernameExisted;
+import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
@@ -46,9 +47,8 @@ public class UserService {
 
     public User update(final UUID id, final User updatedUser) {
         final User user = findById(id);
-
         validateUserUpdate(updatedUser);
-        if (!(user.getUsername().equals(updatedUser.getUsername()))) {
+        if (!equalsIgnoreCase(user.getUsername(), updatedUser.getUsername())) {
             checkExistUsername(updatedUser.getUsername());
             user.setUsername(updatedUser.getUsername());
         }

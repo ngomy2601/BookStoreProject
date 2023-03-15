@@ -17,6 +17,7 @@ import static com.example.bookstoreproject.domain.book.BookError.supplierBookTit
 @Service
 @RequiredArgsConstructor
 public class BookService {
+    
     private final BookStore bookStore;
 
     public List<Book> findAll() {

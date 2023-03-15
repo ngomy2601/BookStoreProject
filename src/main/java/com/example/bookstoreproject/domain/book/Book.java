@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.With;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Getter
@@ -17,8 +17,8 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Instant createAt;
+    private Instant updateAt;
     private String image;
     private UUID userId;
 }

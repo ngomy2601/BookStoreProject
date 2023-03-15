@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
 
 @Table(name = "books")
@@ -23,8 +23,8 @@ public class BookEntity {
     private String title;
     private String author;
     private String description;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Instant createAt;
+    private Instant updateAt;
     private String image;
     private UUID userId;
 }

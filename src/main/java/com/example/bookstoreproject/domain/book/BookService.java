@@ -4,7 +4,6 @@ import com.example.bookstoreproject.persistence.book.BookStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class BookService {
     public Book create(final Book book) {
         validateBookCreation(book);
         checkExistTitle(book.getTitle());
-        book.setCreateAt(Timestamp.from(Instant.now()));
+        book.setCreateAt(Instant.now());
         return bookStore.create(book);
     }
 
@@ -52,7 +51,7 @@ public class BookService {
         book.setTitle(updatedBook.getTitle());
         book.setAuthor(updatedBook.getAuthor());
         book.setDescription(updatedBook.getDescription());
-        book.setUpdateAt(Timestamp.from(Instant.now()));
+        book.setUpdateAt(Instant.now());
         book.setImage(updatedBook.getImage());
         book.setUserId(updatedBook.getUserId());
         return bookStore.update(book);

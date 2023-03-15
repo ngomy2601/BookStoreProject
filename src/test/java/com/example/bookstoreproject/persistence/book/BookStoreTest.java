@@ -26,8 +26,10 @@ class BookStoreTest {
     @Test
     void shouldFindAll_OK() {
         final var expected = buildBookEntities();
+
         when(bookRepository.findAll()).thenReturn(expected);
         assertEquals(expected.size(), bookStore.findAll().size());
+
         verify(bookRepository).findAll();
     }
 
@@ -35,9 +37,12 @@ class BookStoreTest {
     void shouldFindById_OK() {
         final var book = buildBookEntity();
         final var foundBook = Optional.of(book);
+
         when(bookRepository.findById(book.getId())).thenReturn(foundBook);
+
         final var actual = bookStore.findById(book.getId()).get();
         final var expected = foundBook.get();
+
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getAuthor(), actual.getAuthor());
@@ -45,6 +50,7 @@ class BookStoreTest {
         assertEquals(expected.getCreateAt(), actual.getCreateAt());
         assertEquals(expected.getImage(), actual.getImage());
         assertEquals(expected.getUserId(), actual.getUserId());
+
         verify(bookRepository).findById(book.getId());
     }
 
@@ -52,9 +58,12 @@ class BookStoreTest {
     void shouldFindByTitle_OK() {
         final var book = buildBookEntity();
         final var foundBook = Optional.of(book);
+
         when(bookRepository.findByTitle(book.getTitle())).thenReturn(foundBook);
+
         final var actual = bookStore.findByTitle(book.getTitle()).get();
         final var expected = foundBook.get();
+
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getAuthor(), actual.getAuthor());
@@ -62,14 +71,18 @@ class BookStoreTest {
         assertEquals(expected.getCreateAt(), actual.getCreateAt());
         assertEquals(expected.getImage(), actual.getImage());
         assertEquals(expected.getUserId(), actual.getUserId());
+
         verify(bookRepository).findByTitle(book.getTitle());
     }
 
     @Test
     void shouldCreateBook_OK() {
         final var expected = buildBookEntity();
+
         when(bookRepository.save(any())).thenReturn(expected);
+
         final var actual = bookStore.create(buildBook());
+
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getAuthor(), actual.getAuthor());
@@ -82,8 +95,11 @@ class BookStoreTest {
     @Test
     void shouldUpdateBook_OK() {
         final var expected = buildBookEntity();
+
         when(bookRepository.save(any())).thenReturn(expected);
+
         final var actual = bookStore.update(buildBook());
+
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getAuthor(), actual.getAuthor());

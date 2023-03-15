@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 
 class UserServiceTest {
+
     @Mock
     private UserStore userStore;
 
@@ -28,9 +29,12 @@ class UserServiceTest {
     @Test
     void shouldFindAll_OK(){
         final var expected = buildUsers();
+
         when(userStore.findAll())
                 .thenReturn(expected);
+
         final var actual = userService.findAll();
+
         assertEquals(expected.size(), actual.size());
         assertEquals(expected.get(0).getId(), actual.get(0).getId());
         assertEquals(expected.get(0).getUsername(), actual.get(0).getUsername());
@@ -39,6 +43,7 @@ class UserServiceTest {
         assertEquals(expected.get(0).getLastName(), actual.get(0).getLastName());
         assertEquals(expected.get(0).getAvatar(), actual.get(0).getAvatar());
         assertEquals(expected.get(0).getRoleId(), actual.get(0).getRoleId());
+        
         verify(userStore).findAll();
     }
 

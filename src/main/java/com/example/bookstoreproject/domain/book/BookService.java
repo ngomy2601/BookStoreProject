@@ -48,7 +48,6 @@ public class BookService {
 
     public Book update(final UUID id, final Book updatedBook) {
         final Book book = findById(id);
-
         validateBookUpdate(updatedBook);
         book.setTitle(updatedBook.getTitle());
         book.setAuthor(updatedBook.getAuthor());
@@ -56,7 +55,6 @@ public class BookService {
         book.setUpdateAt(Timestamp.from(Instant.now()));
         book.setImage(updatedBook.getImage());
         book.setUserId(updatedBook.getUserId());
-
         return bookStore.update(book);
     }
 

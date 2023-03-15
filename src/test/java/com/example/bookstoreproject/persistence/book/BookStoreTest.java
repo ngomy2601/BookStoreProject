@@ -78,4 +78,24 @@ class BookStoreTest {
         assertEquals(expected.getImage(), actual.getImage());
         assertEquals(expected.getUserId(), actual.getUserId());
     }
+
+    @Test
+    void shouldUpdateBook_OK() {
+        final var expected = buildBookEntity();
+        when(bookRepository.save(any())).thenReturn(expected);
+        final var actual = bookStore.update(buildBook());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getAuthor(), actual.getAuthor());
+        assertEquals(expected.getDescription(), actual.getDescription());
+        assertEquals(expected.getUpdateAt(), actual.getUpdateAt());
+        assertEquals(expected.getImage(), actual.getImage());
+        assertEquals(expected.getUserId(), actual.getUserId());
+    }
+
+    @Test
+    void shouldDeleteBook_OK() {
+        final var book = buildBookEntity();
+        bookStore.delete(book.getId());
+    }
 }

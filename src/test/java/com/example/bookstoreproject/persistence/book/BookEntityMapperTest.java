@@ -11,6 +11,7 @@ class BookEntityMapperTest {
     void shouldToBook_OK() {
         final var bookEntity = buildBookEntity();
         final var book = toBook(bookEntity);
+
         assertEquals(bookEntity.getId(), book.getId());
         assertEquals(bookEntity.getTitle(), book.getTitle());
         assertEquals(bookEntity.getAuthor(), book.getAuthor());
@@ -24,6 +25,7 @@ class BookEntityMapperTest {
     void shouldToBooks_OK() {
         final var bookEntity = buildBookEntities();
         final var books = toBooks(bookEntity);
+
         assertEquals(bookEntity.size(), books.size());
     }
 
@@ -31,6 +33,7 @@ class BookEntityMapperTest {
     void shouldToBooksEntity_OK() {
         final var book = buildBook();
         final var bookEntity = toBookEntity(book);
+
         assertEquals(bookEntity.getId(), book.getId());
         assertEquals(bookEntity.getTitle(), book.getTitle());
         assertEquals(bookEntity.getAuthor(), book.getAuthor());

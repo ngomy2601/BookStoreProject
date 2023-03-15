@@ -3,8 +3,9 @@ package com.example.bookstoreproject.api.book;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.UUID;
+
 @Getter
 @Builder
 public class BookDTO {
@@ -12,8 +13,8 @@ public class BookDTO {
     private String title;
     private String author;
     private String description;
-    private Timestamp createAt;
-    private Timestamp updateAt;
+    private Instant createAt;
+    private Instant updateAt;
     private String image;
     private UUID userId;
 }

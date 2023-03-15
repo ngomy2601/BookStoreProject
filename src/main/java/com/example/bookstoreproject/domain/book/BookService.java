@@ -14,8 +14,6 @@ import static com.example.bookstoreproject.api.book.BookValidation.validateBookC
 import static com.example.bookstoreproject.api.book.BookValidation.validateBookUpdate;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookNotFound;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookTitleExisted;
-import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 @RequiredArgsConstructor
@@ -50,18 +48,15 @@ public class BookService {
 
     public Book update(final UUID id, final Book updatedBook) {
         final Book book = findById(id);
+
         validateBookUpdate(updatedBook);
-        if (!equalsIgnoreCase(book.getTitle(), updatedBook.getTitle())) {
-            checkExistTitle(updatedBook.getTitle());
-            book.setTitle(updatedBook.getTitle());
-        }
-        if (isNotBlank(updatedBook.getAuthor())) {
-            book.setAuthor(updatedBook.getAuthor());
-        }
+        book.setTitle(updatedBook.getTitle());
+        book.setAuthor(updatedBook.getAuthor());
         book.setDescription(updatedBook.getDescription());
         book.setUpdateAt(Timestamp.from(Instant.now()));
         book.setImage(updatedBook.getImage());
         book.setUserId(updatedBook.getUserId());
+
         return bookStore.update(book);
     }
 

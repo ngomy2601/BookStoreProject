@@ -1,17 +1,11 @@
 package com.example.bookstoreproject.api.book;
 
+import com.example.bookstoreproject.api.AbstractControllerTest;
 import com.example.bookstoreproject.domain.book.BookService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.bookstoreproject.fakes.BookFakes.buildBook;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBooks;
@@ -24,22 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(BookController.class)
 @AutoConfigureMockMvc
-class BookControllerTest {
+class BookControllerTest extends AbstractControllerTest {
 
     private static final String BASE_URL = "/api/v1/books";
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Autowired
-    protected MockMvc mvc;
-
     @MockBean
     private BookService bookService;
-
-    @BeforeAll
-    static void init() {
-        objectMapper.registerModule(new JavaTimeModule());
-    }
 
     @Test
     void shouldFindAll_OK() throws Exception {
@@ -47,7 +31,7 @@ class BookControllerTest {
 
         when(bookService.findAll()).thenReturn(books);
 
-        this.mvc.perform(MockMvcRequestBuilders.get(BASE_URL))
+        get(BASE_URL)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(books.size()))
                 .andExpect(jsonPath("$[0].id").value(books.get(0).getId().toString()))
@@ -67,7 +51,7 @@ class BookControllerTest {
 
         when(bookService.create(any())).thenReturn(book);
 
-        this.mvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(book)))
+        post(BASE_URL, book)
                 .andExpect(jsonPath("$.id").value(book.getId().toString()))
                 .andExpect(jsonPath("$.title").value(book.getTitle()))
                 .andExpect(jsonPath("$.author").value(book.getAuthor()))
@@ -83,7 +67,7 @@ class BookControllerTest {
 
         when(bookService.update(any(), any())).thenReturn(book);
 
-        this.mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(book)))
+        put(BASE_URL + "/" + book.getId(), book)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(book.getId().toString()))
                 .andExpect(jsonPath("$.title").value(book.getTitle()))
@@ -97,7 +81,7 @@ class BookControllerTest {
     @Test
     void shouldDeleteBook_OK() throws Exception {
         final var book = buildBook();
-        this.mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + book.getId()))
+        delete(BASE_URL + "/" + book.getId())
                 .andExpect(status().isOk());
     }
 }

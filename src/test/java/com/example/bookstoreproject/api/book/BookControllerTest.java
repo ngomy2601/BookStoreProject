@@ -2,6 +2,8 @@ package com.example.bookstoreproject.api.book;
 
 import com.example.bookstoreproject.domain.book.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,11 +21,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @WebMvcTest(BookController.class)
 @AutoConfigureMockMvc
 class BookControllerTest {
 
     private static final String BASE_URL = "/api/v1/books";
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     protected MockMvc mvc;
@@ -31,8 +36,13 @@ class BookControllerTest {
     @MockBean
     private BookService bookService;
 
+    @BeforeAll
+    static void init() {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
     @Test
-    void shouldFindAll_OK() throws Exception{
+    void shouldFindAll_OK() throws Exception {
         final var books = buildBooks();
 
         when(bookService.findAll()).thenReturn(books);
@@ -52,12 +62,12 @@ class BookControllerTest {
     }
 
     @Test
-    void shouldCreateBook_OK() throws Exception{
+    void shouldCreateBook_OK() throws Exception {
         final var book = buildBook();
 
         when(bookService.create(any())).thenReturn(book);
 
-        this.mvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(book)))
+        this.mvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(book)))
                 .andExpect(jsonPath("$.id").value(book.getId().toString()))
                 .andExpect(jsonPath("$.title").value(book.getTitle()))
                 .andExpect(jsonPath("$.author").value(book.getAuthor()))
@@ -65,6 +75,29 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
+    }
 
+    @Test
+    void shouldUpdateBook_OK() throws Exception {
+        final var book = buildBook();
+
+        when(bookService.update(any(), any())).thenReturn(book);
+
+        this.mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + book.getId()).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(book)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(book.getId().toString()))
+                .andExpect(jsonPath("$.title").value(book.getTitle()))
+                .andExpect(jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(jsonPath("$.description").value(book.getDescription()))
+                .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
+                .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
+    }
+
+    @Test
+    void shouldDeleteBook_OK() throws Exception {
+        final var book = buildBook();
+        this.mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + book.getId()))
+                .andExpect(status().isOk());
     }
 }

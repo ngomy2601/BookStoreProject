@@ -1,7 +1,9 @@
 package com.example.bookstoreproject.domain.book;
 
 import com.example.bookstoreproject.api.book.BookDTO;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class BookDomainMapper {
     public static Book toBook(final BookDTO bookDTO) {
         return Book.builder()

@@ -1,6 +1,10 @@
 package com.example.bookstoreproject.persistence.role;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.UUID;
+
+@Repository
 public class RoleStore {
 
     public String getRoleById(final UUID uuid) {

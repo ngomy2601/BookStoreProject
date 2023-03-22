@@ -55,8 +55,12 @@ public class JwtTokenService {
             return null;
         }
 
+        final String claimUserId = claims.get(CLAIM_USER_ID, String.class);
+        if (isBlank(claimUserId)) {
+            return null;
+        }
         return new UserAuthenticationToken(
-                UUID.fromString(claims.get(CLAIM_USER_ID).toString()),
+                UUID.fromString(claimUserId),
                 claims.getSubject(),
                 Arrays.stream(split(claimRoles, ","))
                         .map(SimpleGrantedAuthority::new)

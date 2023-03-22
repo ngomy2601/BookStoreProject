@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
+
 @Service
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
@@ -21,7 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userStore.findByUsername(username)
                 .map(this::buildUser)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(supplyUserNotFound(username));
     }
 
     private User buildUser(final com.example.bookstoreproject.domain.user.User user) {

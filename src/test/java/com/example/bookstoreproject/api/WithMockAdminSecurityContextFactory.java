@@ -1,26 +1,16 @@
 package com.example.bookstoreproject.api;
 
-import com.example.bookstoreproject.domain.auths.UserAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import java.util.List;
-import java.util.UUID;
+import static com.example.bookstoreproject.fakes.UserAuthenticationTokenFakes.buildAdmin;
 
 public class WithMockAdminSecurityContextFactory implements WithSecurityContextFactory<WithMockAdmin> {
     @Override
     public SecurityContext createSecurityContext(WithMockAdmin annotation) {
         final var context = SecurityContextHolder.createEmptyContext();
-
-        final Authentication auth = new UserAuthenticationToken(
-                UUID.fromString("12345678-b624-4786-a720-a1cbcc255383"),
-                "admin",
-                List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
-        );
-        context.setAuthentication(auth);
+        context.setAuthentication(buildAdmin());
         return context;
     }
 }

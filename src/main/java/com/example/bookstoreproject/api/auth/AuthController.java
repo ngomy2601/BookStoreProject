@@ -17,7 +17,7 @@ import static com.example.bookstoreproject.api.auth.LoginDTOMapper.toAuthenticat
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final JwtTokenService jwtTokenUtil;
+    private final JwtTokenService jwtTokenService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -26,7 +26,7 @@ public class AuthController {
         final Authentication authentication = authenticationManager.authenticate(toAuthentication(loginDTO));
 
         return JwtTokenResponseDTO.builder()
-                .token(jwtTokenUtil.generateToken((JwtUserDetails) authentication.getPrincipal()))
+                .token(jwtTokenService.generateToken((JwtUserDetails) authentication.getPrincipal()))
                 .build();
     }
 }

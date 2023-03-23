@@ -1,6 +1,8 @@
 package com.example.bookstoreproject.domain.auths;
 
+import com.example.bookstoreproject.domain.role.Role;
 import com.example.bookstoreproject.persistence.role.RoleStore;
+import com.example.bookstoreproject.persistence.user.UserEntity;
 import com.example.bookstoreproject.persistence.user.UserStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
+import static com.example.bookstoreproject.persistence.user.UserEntityMapper.toUserEntity;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +26,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userStore.findByUsername(username)
-                .map(this::buildUser)
+                .map(user -> buildUser(toUserEntity(user)))
                 .orElseThrow(supplyUserNotFound(username));
     }
 
-    private User buildUser(final com.example.bookstoreproject.domain.user.User user) {
-        return new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(),
-                List.of(new SimpleGrantedAuthority(roleStore.getRoleById(user.getRoleId()))));
+    private User buildUser(final UserEntity userEntity) {
+        final Role role = roleStore.findById(userEntity.getRoleId());
+        return new JwtUserDetails(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword(), List.of(new SimpleGrantedAuthority(role.getName())));
     }
 }

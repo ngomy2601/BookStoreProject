@@ -1,6 +1,7 @@
 package com.example.bookstoreproject.api.profile;
 
 import com.example.bookstoreproject.api.AbstractControllerTest;
+import com.example.bookstoreproject.api.WithMockAdmin;
 import com.example.bookstoreproject.api.WithMockUser;
 import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.domain.user.UserService;
@@ -50,8 +51,40 @@ class ProfileControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    void shouldGetAdminProfile_OK() throws Exception {
+        final var admin = buildUser();
+        final var userAuthenticationToken = authsProvider.getCurrentAuthentication();
+        admin.setId(userAuthenticationToken.getUserId());
+        when(userService.findById(authsProvider.getCurrentUserId())).thenReturn(admin);
+        get(BASE_URL)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(userAuthenticationToken.getUserId().toString()))
+                .andExpect(jsonPath("$.username").value(admin.getUsername()))
+                .andExpect(jsonPath("$.firstName").value(admin.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(admin.getLastName()))
+                .andExpect(jsonPath("$.avatar").value(admin.getAvatar()));
+    }
+
+    @Test
     @WithMockUser
     void shouldUpdateProfile_OK() throws Exception {
+        final var updatedUser = buildUser();
+        final var token = authsProvider.getCurrentAuthentication().getUserId();
+        updatedUser.setId(token);
+        when(userService.update(any(), any())).thenReturn(updatedUser);
+        put(BASE_URL, updatedUser)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(updatedUser.getId().toString()))
+                .andExpect(jsonPath("$.username").value(updatedUser.getUsername()))
+                .andExpect(jsonPath("$.firstName").value(updatedUser.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(updatedUser.getLastName()))
+                .andExpect(jsonPath("$.avatar").value(updatedUser.getAvatar()));
+    }
+
+    @Test
+    @WithMockAdmin
+    void shouldUpdateAdminProfile_OK() throws Exception {
         final var updatedUser = buildUser();
         final var token = authsProvider.getCurrentAuthentication().getUserId();
         updatedUser.setId(token);

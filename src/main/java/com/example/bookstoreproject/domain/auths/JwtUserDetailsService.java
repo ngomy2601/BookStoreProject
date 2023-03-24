@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
 import static com.example.bookstoreproject.persistence.user.UserEntityMapper.toUserEntity;
@@ -31,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     private User buildUser(final UserEntity userEntity) {
-        final Role role = roleStore.findById(userEntity.getRoleId());
-        return new JwtUserDetails(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword(), List.of(new SimpleGrantedAuthority(role.getName())));
+        final Optional<Role> role = roleStore.findById(userEntity.getRoleId());
+        return new JwtUserDetails(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword(), List.of(new SimpleGrantedAuthority(role.get().getName())));
     }
 }

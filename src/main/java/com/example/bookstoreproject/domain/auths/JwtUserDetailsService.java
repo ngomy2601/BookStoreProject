@@ -33,6 +33,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private User buildUser(final UserEntity userEntity) {
         final Optional<Role> role = roleStore.findById(userEntity.getRoleId());
-        return new JwtUserDetails(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword(), List.of(new SimpleGrantedAuthority(role.get().getName())));
+        return new JwtUserDetails(
+                userEntity.getId(),
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                List.of(new SimpleGrantedAuthority(role.get().getName()))
+        );
     }
 }

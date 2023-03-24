@@ -12,7 +12,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 @UtilityClass
 public class AuthFakes {
-    public static Authentication buildAuth() {
+    public static Authentication buildAuthentication() {
         JwtUserDetails userDetails = new JwtUserDetails(
                 UUID.randomUUID(),
                 randomAlphabetic(3, 15),

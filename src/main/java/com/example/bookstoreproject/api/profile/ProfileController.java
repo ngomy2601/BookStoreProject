@@ -20,9 +20,16 @@ public class ProfileController {
 
     private final UserService userService;
 
-    @Operation(summary = "Update current user profile")
+
+    @Operation(summary = "Get the current user's information")
+    @GetMapping
+    public UserDTO findById(@PathVariable UUID id) {
+        return toUserDTO(userService.findById(id));
+    }
+
+    @Operation(summary = "Update current user's profile")
     @PutMapping
-    public UserDTO update(final @PathVariable UUID id, final @RequestBody UserDTO userDTO) {
-        return toUserDTO(userService.update(id, toUser(userDTO)));
+    public UserDTO update(final @RequestBody UserDTO userDTO) {
+        return toUserDTO(userService.updateProfile(toUser(userDTO)));
     }
 }

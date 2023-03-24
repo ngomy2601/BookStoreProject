@@ -1,5 +1,6 @@
 package com.example.bookstoreproject.domain.user;
 
+import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.persistence.user.UserStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @RequiredArgsConstructor
 public class UserService {
     private final UserStore userStore;
+
+    private final AuthsProvider authsProvider;
 
     public List<User> findAll() {
         return userStore.findAll();
@@ -61,6 +64,10 @@ public class UserService {
         user.setRoleId(updatedUser.getRoleId());
 
         return userStore.update(user);
+    }
+
+    public User updateProfile(final User updatedUser) {
+        return update(authsProvider.getCurrentUserId(), updatedUser);
     }
 
     public void delete(final UUID id) {

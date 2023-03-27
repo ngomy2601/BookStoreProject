@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.StringUtils.startsWith;
 @Configuration
 @RequiredArgsConstructor
 @Profile("!TEST")
-public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
+public class JwtRequestFilter extends OncePerRequestFilter {
 
     private static final String TOKEN_PREFIX = "Bearer";
 

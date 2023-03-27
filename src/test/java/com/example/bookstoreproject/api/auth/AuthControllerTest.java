@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest extends AbstractControllerTest {
 
-    private static final String BASE_URL = "/api/v1/auths";
+    private static final String BASE_URL = "/api/v1/auth";
 
     @MockBean
     private JwtTokenService jwtTokenService;

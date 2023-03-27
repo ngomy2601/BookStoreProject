@@ -31,7 +31,7 @@ public class JWTWebSecurityConfig {
             "/api/v1/auths"
     };
 
-    private final JwtTokenAuthorizationFilter jwtTokenAuthorizationFilter;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public PasswordEncoder passwordEncoderBean() {
@@ -69,7 +69,7 @@ public class JWTWebSecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(jwtTokenAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }

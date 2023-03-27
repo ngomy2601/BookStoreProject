@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.example.bookstoreproject.api.auth.LoginDTOMapper.toAuthentication;
 
 @RestController
-@RequestMapping("api/v1/auths")
+@RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

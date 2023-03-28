@@ -51,6 +51,27 @@ class UserControllerTest extends AbstractControllerTest {
         verify(userService).findAll();
     }
 
+
+    @Test
+    @WithMockAdmin
+    @WithMockUser
+    void shouldFindById_OK() throws Exception {
+        final var user = buildUser();
+
+        when(userService.findById(user.getId())).thenReturn(user);
+
+        get(BASE_URL + "/" + user.getId())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(user.getId().toString()))
+                .andExpect(jsonPath("$.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.firstName").value(user.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(user.getLastName()))
+                .andExpect(jsonPath("$.avatar").value(user.getAvatar()))
+                .andExpect(jsonPath("$.roleId").value(user.getRoleId().toString()));
+
+        verify(userService).findById(user.getId());
+    }
+
     @Test
     @WithMockAdmin
     @WithMockUser

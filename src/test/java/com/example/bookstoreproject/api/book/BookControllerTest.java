@@ -126,4 +126,11 @@ class BookControllerTest extends AbstractControllerTest {
         delete(BASE_URL + "/" + book.getId())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void shouldThrowExceptionWhenDelete_OK() throws Exception {
+        final var book = buildBook();
+        delete(BASE_URL + "/" + book.getId())
+                .andExpect(status().isUnauthorized());
+    }
 }

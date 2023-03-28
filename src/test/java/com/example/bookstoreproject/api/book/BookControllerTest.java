@@ -109,6 +109,16 @@ class BookControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenUpdate_OK() throws Exception {
+        final var book = buildBook();
+
+        when(bookService.update(any(), any())).thenReturn(book);
+
+        put(BASE_URL + "/" + book.getId(), book)
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     @WithMockAdmin
     @WithMockUser
     void shouldDeleteBook_OK() throws Exception {

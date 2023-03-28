@@ -5,12 +5,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
 @AutoConfigureMockMvc
+@ActiveProfiles("TEST")
 public abstract class AbstractControllerTest {
 
     @Autowired
@@ -19,7 +23,7 @@ public abstract class AbstractControllerTest {
     private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     private ResultActions perform(final MockHttpServletRequestBuilder mockHttpServletRequestBuilder) throws Exception {
-        return mvc.perform(mockHttpServletRequestBuilder.contentType(MediaType.APPLICATION_JSON));
+        return mvc.perform(mockHttpServletRequestBuilder.with(csrf()).contentType(MediaType.APPLICATION_JSON));
     }
 
     protected ResultActions get(final String url) throws Exception {

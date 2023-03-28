@@ -20,6 +20,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class UserService {
     private final UserStore userStore;
 
+
     public List<User> findAll() {
         return userStore.findAll();
     }

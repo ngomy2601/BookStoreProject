@@ -3,12 +3,19 @@ plugins {
     id 'org.springframework.boot' version '2.7.7'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version '8.0.4'
+    id 'java-test-fixtures'
     id 'jacoco'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 test {
     systemProperty("spring.profiles.active", project.properties.get("springProfiles"))
@@ -32,10 +39,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "org.springdoc:springdoc-openapi-ui:1.6.14"
-
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "org.apache.commons:commons-collections4:4.4"
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
     implementation 'org.projectlombok:lombok'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'com.cloudinary:cloudinary-http44:1.33.0'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
@@ -44,6 +54,12 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    testFixturesImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testFixturesImplementation 'org.springframework.security:spring-security-test'
+    testFixturesCompileOnly 'org.projectlombok:lombok'
+    testFixturesAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

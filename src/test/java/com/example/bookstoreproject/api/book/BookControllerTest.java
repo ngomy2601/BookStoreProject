@@ -1,6 +1,8 @@
 package com.example.bookstoreproject.api.book;
 
 import com.example.bookstoreproject.api.AbstractControllerTest;
+import com.example.bookstoreproject.api.WithMockAdmin;
+import com.example.bookstoreproject.api.WithMockUser;
 import com.example.bookstoreproject.domain.book.BookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +28,8 @@ class BookControllerTest extends AbstractControllerTest {
     private BookService bookService;
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldFindAll_OK() throws Exception {
         final var books = buildBooks();
 
@@ -46,12 +50,36 @@ class BookControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
+    void shouldFindById_OK() throws Exception {
+        final var book = buildBook();
+
+        when(bookService.findById(book.getId())).thenReturn(book);
+
+        get(BASE_URL + "/" + book.getId())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(book.getId().toString()))
+                .andExpect(jsonPath("$.title").value(book.getTitle()))
+                .andExpect(jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(jsonPath("$.description").value(book.getDescription()))
+                .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
+                .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
+
+        verify(bookService).findById(book.getId());
+    }
+
+    @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldCreateBook_OK() throws Exception {
         final var book = buildBook();
 
         when(bookService.create(any())).thenReturn(book);
 
         post(BASE_URL, book)
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(book.getId().toString()))
                 .andExpect(jsonPath("$.title").value(book.getTitle()))
                 .andExpect(jsonPath("$.author").value(book.getAuthor()))
@@ -62,6 +90,8 @@ class BookControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldUpdateBook_OK() throws Exception {
         final var book = buildBook();
 
@@ -79,9 +109,28 @@ class BookControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenUpdate_OK() throws Exception {
+        final var book = buildBook();
+
+        when(bookService.update(any(), any())).thenReturn(book);
+
+        put(BASE_URL + "/" + book.getId(), book)
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldDeleteBook_OK() throws Exception {
         final var book = buildBook();
         delete(BASE_URL + "/" + book.getId())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDelete_OK() throws Exception {
+        final var book = buildBook();
+        delete(BASE_URL + "/" + book.getId())
+                .andExpect(status().isUnauthorized());
     }
 }

@@ -1,15 +1,15 @@
 package com.example.bookstoreproject.api.user;
 
+import com.example.bookstoreproject.api.AbstractControllerTest;
+import com.example.bookstoreproject.api.WithMockAdmin;
+import com.example.bookstoreproject.api.WithMockUser;
 import com.example.bookstoreproject.domain.user.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.bookstoreproject.fakes.UserFakes.buildUser;
 import static com.example.bookstoreproject.fakes.UserFakes.buildUsers;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc
-class UserControllerTest {
+class UserControllerTest extends AbstractControllerTest {
 
     private static final String BASE_URL = "/api/v1/users";
     @Autowired
@@ -31,12 +31,14 @@ class UserControllerTest {
     private UserService userService;
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldFindAll_OK() throws Exception {
         final var users = buildUsers();
 
         when(userService.findAll()).thenReturn(users);
 
-        this.mvc.perform(MockMvcRequestBuilders.get(BASE_URL))
+        get(BASE_URL)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(users.size()))
                 .andExpect(jsonPath("$[0].id").value(users.get(0).getId().toString()))
@@ -49,12 +51,35 @@ class UserControllerTest {
         verify(userService).findAll();
     }
 
+
     @Test
+    @WithMockAdmin
+    @WithMockUser
+    void shouldFindById_OK() throws Exception {
+        final var user = buildUser();
+
+        when(userService.findById(user.getId())).thenReturn(user);
+
+        get(BASE_URL + "/" + user.getId())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(user.getId().toString()))
+                .andExpect(jsonPath("$.username").value(user.getUsername()))
+                .andExpect(jsonPath("$.firstName").value(user.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(user.getLastName()))
+                .andExpect(jsonPath("$.avatar").value(user.getAvatar()))
+                .andExpect(jsonPath("$.roleId").value(user.getRoleId().toString()));
+
+        verify(userService).findById(user.getId());
+    }
+
+    @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldCreateUser_OK() throws Exception {
         final var user = buildUser();
         when(userService.create(any())).thenReturn(user);
 
-        this.mvc.perform(MockMvcRequestBuilders.post(BASE_URL).contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user)))
+        post(BASE_URL, user)
                 .andExpect(jsonPath("$.id").value(user.getId().toString()))
                 .andExpect(jsonPath("$.username").value(user.getUsername()))
                 .andExpect(jsonPath("$.password").value(user.getPassword()))
@@ -65,11 +90,12 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldUpdateUser_OK() throws Exception {
         final var user = buildUser();
         when(userService.update(any(), any())).thenReturn(user);
-        this.mvc.perform(MockMvcRequestBuilders.put(BASE_URL + "/" + user.getId()).contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(user)))
+        put(BASE_URL + "/" + user.getId(), user)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(user.getId().toString()))
                 .andExpect(jsonPath("$.username").value(user.getUsername()))
@@ -81,9 +107,11 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldDeleteUser_OK() throws Exception {
         final var user = buildUser();
-        this.mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + user.getId()))
+        delete(BASE_URL + "/" + user.getId())
                 .andExpect(status().isOk());
     }
 }

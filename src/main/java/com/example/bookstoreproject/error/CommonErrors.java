@@ -9,4 +9,8 @@ public class CommonErrors {
     public static Supplier<BadRequestException> supplyValidationError(final String message) {
         return () -> new BadRequestException(message);
     }
+
+    public static Supplier<UnauthorizedException> supplyUnauthorizedError() {
+        return () -> new UnauthorizedException();
+    }
 }

@@ -1,0 +1,5 @@
+ALTER TABLE Users
+    ALTER COLUMN password TYPE VARCHAR(1024);
+
+UPDATE Users
+SET password = '$2a$10$v.ZU2DqtVYE9GmiFx0540e7IsWmqi4IJr5MhM7NkoVM/Pi4gndqBu';

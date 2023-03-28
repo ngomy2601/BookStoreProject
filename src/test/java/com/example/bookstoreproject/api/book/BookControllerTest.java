@@ -52,6 +52,27 @@ class BookControllerTest extends AbstractControllerTest {
     @Test
     @WithMockAdmin
     @WithMockUser
+    void shouldFindById_OK() throws Exception {
+        final var book = buildBook();
+
+        when(bookService.findById(book.getId())).thenReturn(book);
+
+        get(BASE_URL + "/" + book.getId())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(book.getId().toString()))
+                .andExpect(jsonPath("$.title").value(book.getTitle()))
+                .andExpect(jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(jsonPath("$.description").value(book.getDescription()))
+                .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
+                .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
+
+        verify(bookService).findById(book.getId());
+    }
+
+    @Test
+    @WithMockAdmin
+    @WithMockUser
     void shouldCreateBook_OK() throws Exception {
         final var book = buildBook();
 

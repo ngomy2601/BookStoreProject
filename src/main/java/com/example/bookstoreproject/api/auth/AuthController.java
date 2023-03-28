@@ -4,8 +4,9 @@ import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,6 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
     @PostMapping
     public JwtTokenResponseDTO login(final @RequestBody LoginDTO loginDTO) throws Exception {
         try {
@@ -33,7 +32,7 @@ public class AuthController {
             return JwtTokenResponseDTO.builder()
                     .token(jwtTokenService.generateToken((JwtUserDetails) authentication.getPrincipal()))
                     .build();
-        } catch (Exception e) {
+        } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
             throw supplyUnauthorizedError().get();
         }
     }

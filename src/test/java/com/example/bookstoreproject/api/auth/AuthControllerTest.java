@@ -4,6 +4,8 @@ import com.example.bookstoreproject.api.AbstractControllerTest;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 class AuthControllerTest extends AbstractControllerTest {
 
     private static final String BASE_URL = "/api/v1/auth";

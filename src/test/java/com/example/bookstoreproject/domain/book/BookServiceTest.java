@@ -1,5 +1,6 @@
 package com.example.bookstoreproject.domain.book;
 
+import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.persistence.book.BookStore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,19 +12,23 @@ import java.util.Optional;
 
 import static com.example.bookstoreproject.fakes.BookFakes.buildBook;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBooks;
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-
 class BookServiceTest {
 
     @Mock
     private BookStore bookStore;
 
+    @Mock
+    private AuthsProvider authsProvider;
+
     @InjectMocks
     private BookService bookService;
+
 
     @Test
     void shouldFindAll_OK() {
@@ -61,7 +66,9 @@ class BookServiceTest {
     @Test
     void shouldCreateBook_OK() {
         final var book = buildBook();
+        final var userId = randomUUID();
 
+        when(authsProvider.getCurrentUserId()).thenReturn(userId);
         when(bookStore.create(book)).thenReturn(book);
 
         final var createdBook = bookService.create(book);
@@ -72,8 +79,9 @@ class BookServiceTest {
         assertEquals(book.getDescription(), createdBook.getDescription());
         assertEquals(book.getCreateAt(), createdBook.getCreateAt());
         assertEquals(book.getImage(), createdBook.getImage());
-        assertEquals(book.getUserId(), createdBook.getUserId());
+        assertEquals(book.getUserId(), userId);
 
+        verify(authsProvider).getCurrentUserId();
         verify(bookStore).create(book);
     }
 

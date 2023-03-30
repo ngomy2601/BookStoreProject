@@ -15,10 +15,7 @@ public class BookDTOMapper {
                 .title(book.getTitle())
                 .author(book.getAuthor())
                 .description(book.getDescription())
-                .createAt(book.getCreateAt())
-                .updateAt(book.getUpdateAt())
                 .image(book.getImage())
-                .userId(book.getUserId())
                 .build();
     }
 

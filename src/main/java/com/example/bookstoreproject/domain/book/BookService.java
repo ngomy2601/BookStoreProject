@@ -1,6 +1,7 @@
 package com.example.bookstoreproject.domain.book;
 
 import com.cloudinary.Cloudinary;
+import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.persistence.book.BookStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class BookService {
 
     private final BookStore bookStore;
     private final Cloudinary cloudinary;
+    private final AuthsProvider authsProvider;
 
 
     public List<Book> findAll() {
@@ -33,6 +35,7 @@ public class BookService {
     public Book create(final Book book) {
         validateBookCreation(book);
         checkExistTitle(book.getTitle());
+        book.setUserId(authsProvider.getCurrentUserId());
         book.setCreateAt(Instant.now());
         return bookStore.create(book);
     }
@@ -60,7 +63,7 @@ public class BookService {
         book.setDescription(updatedBook.getDescription());
         book.setUpdateAt(Instant.now());
         book.setImage(updatedBook.getImage());
-        book.setUserId(updatedBook.getUserId());
+        book.setUserId(authsProvider.getCurrentUserId());
         return bookStore.update(book);
     }
 
@@ -74,6 +77,7 @@ public class BookService {
         final String url = result.get("secure_url").toString();
         book.setImage(url);
         book.setUpdateAt(Instant.now());
+        book.setUserId(authsProvider.getCurrentUserId());
         return bookStore.update(book);
     }
 }

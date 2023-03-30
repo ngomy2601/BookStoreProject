@@ -11,10 +11,7 @@ public class BookDomainMapper {
                 .title(bookDTO.getTitle())
                 .author(bookDTO.getAuthor())
                 .description(bookDTO.getDescription())
-                .createAt(bookDTO.getCreateAt())
-                .updateAt(bookDTO.getUpdateAt())
                 .image(bookDTO.getImage())
-                .userId(bookDTO.getUserId())
                 .build();
     }
 }

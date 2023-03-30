@@ -2,18 +2,18 @@ package com.example.bookstoreproject.api.book;
 
 import org.junit.jupiter.api.Test;
 
-import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookDTO;
-import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookDTOs;
+import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookRequestDTO;
+import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookRequestDTOs;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBook;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBooks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class BookDTOMapperTest {
+class BookRequestDTOMapperTest {
 
     @Test
     void shouldToBookDTO_OK() {
         final var book = buildBook();
-        final var bookDTO = toBookDTO(book);
+        final var bookDTO = toBookRequestDTO(book);
 
         assertEquals(book.getId(), bookDTO.getId());
         assertEquals(book.getTitle(), bookDTO.getTitle());
@@ -25,7 +25,7 @@ class BookDTOMapperTest {
     @Test
     void shouldToBookDTOs_OK() {
         final var books = buildBooks();
-        final var bookDTOs = toBookDTOs(books);
+        final var bookDTOs = toBookRequestDTOs(books);
 
         assertEquals(books.size(), bookDTOs.size());
     }

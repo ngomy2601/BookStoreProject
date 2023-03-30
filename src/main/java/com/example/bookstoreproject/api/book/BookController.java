@@ -1,6 +1,5 @@
 package com.example.bookstoreproject.api.book;
 
-import com.cloudinary.Cloudinary;
 import com.example.bookstoreproject.domain.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +19,6 @@ import static com.example.bookstoreproject.domain.book.BookDomainMapper.toBook;
 public class BookController {
 
     private final BookService bookService;
-
-    private final Cloudinary cloudinary;
 
     @GetMapping
     public List<BookDTO> findAll() {

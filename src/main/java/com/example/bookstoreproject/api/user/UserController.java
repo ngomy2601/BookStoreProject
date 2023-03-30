@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTO;
-import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTOs;
+import static com.example.bookstoreproject.api.user.UserResponseDTOMapper.toUserResponseDTO;
+import static com.example.bookstoreproject.api.user.UserResponseDTOMapper.toUserResponseDTOs;
 import static com.example.bookstoreproject.domain.user.UserDomainMapper.toUser;
 
 @RestController
@@ -19,13 +20,13 @@ public class UserController {
 
 
     @GetMapping
-    public List<UserDTO> findAll() {
-        return toUserDTOs(userService.findAll());
+    public List<UserResponseDTO> findAll() {
+        return toUserResponseDTOs(userService.findAll());
     }
 
     @GetMapping("{id}")
-    public UserDTO findById(@PathVariable UUID id) {
-        return toUserDTO(userService.findById(id));
+    public UserResponseDTO findById(@PathVariable UUID id) {
+        return toUserResponseDTO(userService.findById(id));
     }
 
     @PostMapping

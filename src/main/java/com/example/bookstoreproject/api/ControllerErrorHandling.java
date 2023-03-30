@@ -3,11 +3,13 @@ package com.example.bookstoreproject.api;
 import com.example.bookstoreproject.error.DomainException;
 import com.example.bookstoreproject.error.ErrorDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.Instant;
 
+@ControllerAdvice
 public class ControllerErrorHandling extends ResponseEntityExceptionHandler {
     @ExceptionHandler({DomainException.class})
     public ResponseEntity<ErrorDTO> handleDomainException(final DomainException error) {

@@ -1,9 +1,12 @@
 package com.example.bookstoreproject.domain.book;
 
+import com.cloudinary.Cloudinary;
 import com.example.bookstoreproject.persistence.book.BookStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +16,15 @@ import static com.example.bookstoreproject.api.book.BookValidation.validateBookC
 import static com.example.bookstoreproject.api.book.BookValidation.validateBookUpdate;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookNotFound;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookTitleExisted;
+import static java.util.Collections.emptyMap;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
-    
+
     private final BookStore bookStore;
+    private final Cloudinary cloudinary;
+
 
     public List<Book> findAll() {
         return bookStore.findAll();
@@ -60,5 +66,14 @@ public class BookService {
 
     public void delete(final UUID id) {
         bookStore.delete(id);
+    }
+
+    public Book uploadImage(final UUID id, final MultipartFile file) throws IOException {
+        final Book book = findById(id);
+        final var result = cloudinary.uploader().upload(file.getBytes(), emptyMap());
+        final String url = result.get("secure_url").toString();
+        book.setImage(url);
+        book.setUpdateAt(Instant.now());
+        return bookStore.update(book);
     }
 }

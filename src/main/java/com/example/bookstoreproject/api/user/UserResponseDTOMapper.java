@@ -1,11 +1,13 @@
 package com.example.bookstoreproject.api.user;
 
 import com.example.bookstoreproject.domain.user.User;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
+@UtilityClass
 public class UserResponseDTOMapper {
     public static UserResponseDTO toUserResponseDTO(final User user) {
         return UserResponseDTO.builder()

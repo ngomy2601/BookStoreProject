@@ -8,9 +8,9 @@ import java.util.List;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @UtilityClass
-public class BookDTOMapper {
-    public static BookDTO toBookDTO(final Book book) {
-        return BookDTO.builder()
+public class BookRequestDTOMapper {
+    public static BookRequestDTO toBookDTO(final Book book) {
+        return BookRequestDTO.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .author(book.getAuthor())
@@ -19,10 +19,10 @@ public class BookDTOMapper {
                 .build();
     }
 
-    public static List<BookDTO> toBookDTOs(final List<Book> books) {
+    public static List<BookRequestDTO> toBookDTOs(final List<Book> books) {
         return emptyIfNull(books)
                 .stream()
-                .map(BookDTOMapper::toBookDTO)
+                .map(BookRequestDTOMapper::toBookDTO)
                 .toList();
     }
 }

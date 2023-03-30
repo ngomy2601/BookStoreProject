@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.bookstoreproject.api.user.UserDTOMapper.toUserDTO;
+import static com.example.bookstoreproject.api.user.UserRequestDTOMapper.toUserDTO;
 import static com.example.bookstoreproject.api.user.UserResponseDTOMapper.toUserResponseDTO;
 import static com.example.bookstoreproject.api.user.UserResponseDTOMapper.toUserResponseDTOs;
 import static com.example.bookstoreproject.domain.user.UserDomainMapper.toUser;
@@ -30,12 +30,12 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO create(final @RequestBody UserDTO userDTO) {
+    public UserRequestDTO create(final @RequestBody UserRequestDTO userDTO) {
         return toUserDTO(userService.create(toUser(userDTO)));
     }
 
     @PutMapping("{id}")
-    public UserDTO update(final @PathVariable UUID id, final @RequestBody UserDTO userDTO) {
+    public UserRequestDTO update(final @PathVariable UUID id, final @RequestBody UserRequestDTO userDTO) {
         return toUserDTO(userService.update(id, toUser(userDTO)));
     }
 

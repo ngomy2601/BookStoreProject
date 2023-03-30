@@ -8,9 +8,9 @@ import java.util.List;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @UtilityClass
-public class UserDTOMapper {
-    public static UserDTO toUserDTO(final User user) {
-        return UserDTO.builder()
+public class UserRequestDTOMapper {
+    public static UserRequestDTO toUserDTO(final User user) {
+        return UserRequestDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .password(user.getPassword())
@@ -21,10 +21,10 @@ public class UserDTOMapper {
                 .build();
     }
 
-    public static List<UserDTO> toUserDTOs(final List<User> users) {
+    public static List<UserRequestDTO> toUserDTOs(final List<User> users) {
         return emptyIfNull(users)
                 .stream()
-                .map(UserDTOMapper::toUserDTO)
+                .map(UserRequestDTOMapper::toUserDTO)
                 .toList();
     }
 

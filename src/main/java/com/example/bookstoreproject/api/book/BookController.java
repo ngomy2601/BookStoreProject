@@ -31,12 +31,12 @@ public class BookController {
     }
 
     @PostMapping
-    public BookResponseDTO create(final @RequestBody BookDTO bookDTO) {
+    public BookResponseDTO create(final @RequestBody BookRequestDTO bookDTO) {
         return toBookResponseDTO(bookService.create(toBook(bookDTO)));
     }
 
     @PutMapping("{id}")
-    public BookResponseDTO update(final @PathVariable UUID id, final @RequestBody BookDTO bookDTO) {
+    public BookResponseDTO update(final @PathVariable UUID id, final @RequestBody BookRequestDTO bookDTO) {
         return toBookResponseDTO(bookService.update(id, toBook(bookDTO)));
     }
 

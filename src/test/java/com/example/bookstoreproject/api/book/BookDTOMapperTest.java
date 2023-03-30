@@ -2,8 +2,8 @@ package com.example.bookstoreproject.api.book;
 
 import org.junit.jupiter.api.Test;
 
-import static com.example.bookstoreproject.api.book.BookDTOMapper.toBookDTO;
-import static com.example.bookstoreproject.api.book.BookDTOMapper.toBookDTOs;
+import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookDTO;
+import static com.example.bookstoreproject.api.book.BookRequestDTOMapper.toBookDTOs;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBook;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBooks;
 import static org.junit.jupiter.api.Assertions.assertEquals;

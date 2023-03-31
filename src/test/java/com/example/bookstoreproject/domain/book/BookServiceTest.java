@@ -114,4 +114,5 @@ class BookServiceTest {
         bookService.delete(book.getId());
         verify(bookStore).delete(book.getId());
     }
+    
 }

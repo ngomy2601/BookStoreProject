@@ -71,13 +71,13 @@ public class BookService {
         bookStore.delete(id);
     }
 
-    public Book uploadImage(final UUID id, final MultipartFile file) throws IOException {
+    public void uploadImage(final UUID id, final MultipartFile file) throws IOException {
         final Book book = findById(id);
         final var result = cloudinary.uploader().upload(file.getBytes(), emptyMap());
         final String url = result.get("secure_url").toString();
         book.setImage(url);
         book.setUpdateAt(Instant.now());
         book.setUserId(authsProvider.getCurrentUserId());
-        return bookStore.update(book);
+        bookStore.update(book);
     }
 }

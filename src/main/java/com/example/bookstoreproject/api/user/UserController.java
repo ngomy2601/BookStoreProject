@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @PostMapping
-    public UserRequestDTO create(final @RequestBody UserRequestDTO userDTO) {
-        return toUserDTO(userService.create(toUser(userDTO)));
+    public UserResponseDTO create(final @RequestBody UserRequestDTO userDTO) {
+        return toUserResponseDTO(userService.create(toUser(userDTO)));
     }
 
     @PutMapping("{id}")

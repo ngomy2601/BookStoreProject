@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.bookstoreproject.api.user.UserRequestDTOMapper.toUserDTO;
 import static com.example.bookstoreproject.api.user.UserResponseDTOMapper.toUserResponseDTO;
 import static com.example.bookstoreproject.domain.user.UserDomainMapper.toUser;
 
@@ -24,8 +23,8 @@ public class ProfileController {
 
     @Operation(summary = "Get the current user's information")
     @GetMapping
-    public UserRequestDTO findById() {
-        return toUserDTO(userService.findById(authsProvider.getCurrentUserId()));
+    public UserResponseDTO findById() {
+        return toUserResponseDTO(userService.findById(authsProvider.getCurrentUserId()));
     }
 
     @Operation(summary = "Update current user's profile")

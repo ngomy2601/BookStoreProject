@@ -77,7 +77,6 @@ public class BookService {
         final String url = result.get("secure_url").toString();
         book.setImage(url);
         book.setUpdateAt(Instant.now());
-        book.setUserId(authsProvider.getCurrentUserId());
         bookStore.update(book);
     }
 }

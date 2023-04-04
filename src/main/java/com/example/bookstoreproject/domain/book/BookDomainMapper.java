@@ -7,7 +7,6 @@ import lombok.experimental.UtilityClass;
 public class BookDomainMapper {
     public static Book toBook(final BookRequestDTO bookDTO) {
         return Book.builder()
-                .id(bookDTO.getId())
                 .title(bookDTO.getTitle())
                 .author(bookDTO.getAuthor())
                 .description(bookDTO.getDescription())

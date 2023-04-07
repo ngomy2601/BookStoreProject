@@ -61,7 +61,6 @@ public class BookService {
         book.setDescription(updatedBook.getDescription());
         book.setUpdateAt(Instant.now());
         book.setImage(updatedBook.getImage());
-        book.setUserId(authsProvider.getCurrentUserId());
         return bookStore.update(book);
     }
 

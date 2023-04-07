@@ -1,6 +1,5 @@
 package com.example.bookstoreproject.domain.book;
 
-import com.cloudinary.Cloudinary;
 import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.persistence.book.BookStore;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +16,13 @@ import static com.example.bookstoreproject.api.book.BookValidation.validateBookC
 import static com.example.bookstoreproject.api.book.BookValidation.validateBookUpdate;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookNotFound;
 import static com.example.bookstoreproject.domain.book.BookError.supplierBookTitleExisted;
-import static java.util.Collections.emptyMap;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
     private final BookStore bookStore;
-    private final Cloudinary cloudinary;
+    private final CloudinaryService cloudinaryService;
     private final AuthsProvider authsProvider;
 
 
@@ -73,8 +71,7 @@ public class BookService {
 
     public void uploadImage(final UUID id, final MultipartFile file) throws IOException {
         final Book book = findById(id);
-        final var result = cloudinary.uploader().upload(file.getBytes(), emptyMap());
-        final String url = result.get("secure_url").toString();
+        final String url = cloudinaryService.upload(file.getBytes());
         book.setImage(url);
         book.setUpdateAt(Instant.now());
         bookStore.update(book);

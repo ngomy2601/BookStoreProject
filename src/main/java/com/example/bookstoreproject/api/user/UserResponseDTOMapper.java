@@ -8,12 +8,11 @@ import java.util.List;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @UtilityClass
-public class UserDTOMapper {
-    public static UserDTO toUserDTO(final User user) {
-        return UserDTO.builder()
+public class UserResponseDTOMapper {
+    public static UserResponseDTO toUserResponseDTO(final User user) {
+        return UserResponseDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .password(user.getPassword())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .avatar(user.getAvatar())
@@ -21,11 +20,10 @@ public class UserDTOMapper {
                 .build();
     }
 
-    public static List<UserDTO> toUserDTOs(final List<User> users) {
+    public static List<UserResponseDTO> toUserResponseDTOs(final List<User> users) {
         return emptyIfNull(users)
                 .stream()
-                .map(UserDTOMapper::toUserDTO)
+                .map(UserResponseDTOMapper::toUserResponseDTO)
                 .toList();
     }
-
 }

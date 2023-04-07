@@ -47,6 +47,6 @@ public class BookController {
 
     @PostMapping("{id}/image")
     public void upload(final @PathVariable UUID id, @RequestParam("file") final MultipartFile file) throws IOException {
-        bookService.uploadImage(id, file);
+        bookService.uploadImage(id, file.getBytes());
     }
 }

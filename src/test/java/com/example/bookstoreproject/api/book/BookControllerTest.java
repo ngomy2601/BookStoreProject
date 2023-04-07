@@ -25,8 +25,8 @@ public class BookControllerTest {
         final var id = randomUUID();
         final var file = new MockMultipartFile("my.png", "img".getBytes());
 
-        doNothing().when(bookService).uploadImage(id, file);
+        doNothing().when(bookService).uploadImage(id, file.getBytes());
         bookController.upload(id, file);
-        verify(bookService).uploadImage(id, file);
+        verify(bookService).uploadImage(id, file.getBytes());
     }
 }

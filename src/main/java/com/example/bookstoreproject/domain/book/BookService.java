@@ -4,7 +4,6 @@ import com.example.bookstoreproject.domain.auths.AuthsProvider;
 import com.example.bookstoreproject.persistence.book.BookStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -68,9 +67,9 @@ public class BookService {
         bookStore.delete(id);
     }
 
-    public void uploadImage(final UUID id, final MultipartFile file) throws IOException {
+    public void uploadImage(final UUID id, final byte[] image) throws IOException {
         final Book book = findById(id);
-        book.setImage(cloudinaryService.upload(file.getBytes()));
+        book.setImage(cloudinaryService.upload(image));
         book.setUpdateAt(Instant.now());
         bookStore.update(book);
     }

@@ -1,7 +1,8 @@
 package com.example.bookstoreproject.configuration;
 
 import com.cloudinary.Cloudinary;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.example.bookstoreproject.properties.CloudinaryProperties;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,22 +10,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ConfigurationProperties(prefix = "cloudinary")
-
+@AllArgsConstructor
 public class CloudinaryConfiguration {
 
-    private String name;
-
-    private String secret;
-
-    private String key;
+    private CloudinaryProperties cloudinaryProperties;
 
     @Bean
     public Cloudinary cloudinary() {
         final Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", name);
-        config.put("api_key", key);
-        config.put("api_secret", secret);
+        config.put("cloud_name", cloudinaryProperties.getName());
+        config.put("api_key", cloudinaryProperties.getKey());
+        config.put("api_secret", cloudinaryProperties.getSecret());
         return new Cloudinary(config);
     }
 }

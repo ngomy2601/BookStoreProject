@@ -26,8 +26,13 @@ public class BookStore {
         return bookRepository.findById(id).map(BookEntityMapper::toBook);
     }
 
-    public Optional<Book> findByTitle(final String title){
+    public Optional<Book> findByTitle(final String title) {
         return bookRepository.findByTitle(title).map(BookEntityMapper::toBook);
+    }
+
+    public Optional<Book> findBookByIsbn13(final String isbn13) {
+        return bookRepository.findByIsbn13(isbn13)
+                .map(BookEntityMapper::toBook);
     }
 
     public Book update(final Book book) {

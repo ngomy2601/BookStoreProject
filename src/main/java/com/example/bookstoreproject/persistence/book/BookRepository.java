@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends CrudRepository<BookEntity, UUID> {
     Optional<BookEntity> findByTitle(final String title);
+
+    Optional<BookEntity> findByIsbn13(final String isbn13);
 }

@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
 import static java.util.UUID.randomUUID;
+import static org.apache.commons.lang3.RandomUtils.nextBytes;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
@@ -23,10 +24,10 @@ public class BookControllerTest {
     @Test
     void shouldUploadImage_OK() throws Exception {
         final var id = randomUUID();
-        final var file = new MockMultipartFile("my.png", "img".getBytes());
-
-        doNothing().when(bookService).uploadImage(id, file.getBytes());
+        final var bytes = nextBytes(20);
+        final var file = new MockMultipartFile("my.png", bytes);
+        doNothing().when(bookService).uploadImage(id, bytes);
         bookController.upload(id, file);
-        verify(bookService).uploadImage(id, file.getBytes());
+        verify(bookService).uploadImage(id, bytes);
     }
 }

@@ -70,8 +70,7 @@ public class BookService {
 
     public void uploadImage(final UUID id, final MultipartFile file) throws IOException {
         final Book book = findById(id);
-        final String url = cloudinaryService.upload(file.getBytes());
-        book.setImage(url);
+        book.setImage(cloudinaryService.upload(file.getBytes()));
         book.setUpdateAt(Instant.now());
         bookStore.update(book);
     }

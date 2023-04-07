@@ -24,7 +24,6 @@ public class BookService {
     private final CloudinaryService cloudinaryService;
     private final AuthsProvider authsProvider;
 
-
     public List<Book> findAll() {
         return bookStore.findAll();
     }

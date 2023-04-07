@@ -11,7 +11,9 @@ import static java.util.Collections.emptyMap;
 @Service
 @RequiredArgsConstructor
 public class CloudinaryService {
+
     private final Cloudinary cloudinary;
+    
     public String upload(final byte[] image) throws IOException {
         final var result = cloudinary.uploader().upload(image, emptyMap());
         final String url = result.get("secure_url").toString();

@@ -39,7 +39,6 @@ public class BookService {
         final double bookRating = book.getRating() == null ? 0.0 : book.getRating();
         final Book createdBook = book
                 .withUserId(authsProvider.getCurrentUserId())
-                .withIsbn13(book.getIsbn13())
                 .withCreateAt(Instant.now())
                 .withRating(bookRating);
         return bookStore.create(createdBook);

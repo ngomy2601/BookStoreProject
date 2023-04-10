@@ -42,7 +42,7 @@ public class BookService {
                 .withIsbn13(book.getIsbn13())
                 .withCreateAt(Instant.now())
                 .withRating(bookRating);
-        return bookStore.create(book);
+        return bookStore.create(createdBook);
     }
 
     public Book findById(final UUID id) {

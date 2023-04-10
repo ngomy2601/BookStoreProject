@@ -1,7 +1,6 @@
 package com.example.bookstoreproject.api.book;
 
 import com.example.bookstoreproject.domain.book.BookService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +30,6 @@ public class BookController {
         return toBookResponseDTO(bookService.findById(id));
     }
 
-    @Operation(summary = "Find books by title, author, description, subtitle, publisher, isbn13")
     @GetMapping("find")
     public List<BookResponseDTO> find(final @RequestParam String keyword) {
         return toBookResponseDTOs(bookService.find(keyword));

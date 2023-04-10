@@ -16,7 +16,13 @@ import static org.apache.commons.collections4.IterableUtils.toList;
 public class BookStore {
     private final BookRepository bookRepository;
 
-    public List<Book> findAll() {return toBooks(toList(bookRepository.findAll()));}
+    public List<Book> findAll() {
+        return toBooks(toList(bookRepository.findAll()));
+    }
+
+    public List<Book> find(final String keyword) {
+        return toBooks(bookRepository.find(keyword));
+    }
 
     public Book create(final Book book) {
         return toBook(bookRepository.save(toBookEntity(book)));

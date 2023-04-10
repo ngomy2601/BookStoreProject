@@ -27,6 +27,10 @@ public class BookService {
         return bookStore.findAll();
     }
 
+    public List<Book> find(final String keyword) {
+        return bookStore.find(keyword);
+    }
+
     public Book create(final Book book) {
         validateBookCreation(book);
         checkExistTitle(book.getTitle());

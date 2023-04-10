@@ -13,8 +13,7 @@ import java.util.UUID;
 
 import static com.example.bookstoreproject.api.book.BookValidation.validateBookCreation;
 import static com.example.bookstoreproject.api.book.BookValidation.validateBookUpdate;
-import static com.example.bookstoreproject.domain.book.BookError.supplierBookNotFound;
-import static com.example.bookstoreproject.domain.book.BookError.supplierBookTitleExisted;
+import static com.example.bookstoreproject.domain.book.BookError.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +30,14 @@ public class BookService {
     public Book create(final Book book) {
         validateBookCreation(book);
         checkExistTitle(book.getTitle());
-        book.setUserId(authsProvider.getCurrentUserId());
-        book.setCreateAt(Instant.now());
+        verifyIsbn13BookAvailable(book.getIsbn13());
+
+        final double bookRating = book.getRating() == null ? 0.0 : book.getRating();
+        final Book createdBook = book
+                .withUserId(authsProvider.getCurrentUserId())
+                .withIsbn13(book.getIsbn13())
+                .withCreateAt(Instant.now())
+                .withRating(bookRating);
         return bookStore.create(book);
     }
 
@@ -42,6 +47,11 @@ public class BookService {
 
     public Book findByTitle(final String title) {
         return bookStore.findByTitle(title).orElseThrow(supplierBookNotFound(title));
+    }
+
+    public Book findBookByIsbn13(final String isbn13) {
+        return bookStore.findBookByIsbn13(isbn13)
+                .orElseThrow(supplierBookNotFound(isbn13));
     }
 
     public void checkExistTitle(final String title) {
@@ -54,11 +64,20 @@ public class BookService {
     public Book update(final UUID id, final Book updatedBook) {
         final Book book = findById(id);
         validateBookUpdate(updatedBook);
+        if (!book.getIsbn13().equals(book.getIsbn13())) {
+            verifyIsbn13BookAvailable(book.getIsbn13());
+            book.setIsbn13(book.getIsbn13());
+        }
         book.setTitle(updatedBook.getTitle());
         book.setAuthor(updatedBook.getAuthor());
         book.setDescription(updatedBook.getDescription());
         book.setUpdateAt(Instant.now());
         book.setImage(updatedBook.getImage());
+        book.setSubtitle(updatedBook.getSubtitle());
+        book.setPublisher(updatedBook.getPublisher());
+        book.setPrice(updatedBook.getPrice());
+        book.setYear(updatedBook.getYear());
+        book.setRating(updatedBook.getRating());
         return bookStore.update(book);
     }
 
@@ -71,5 +90,12 @@ public class BookService {
         book.setImage(cloudinaryService.upload(image));
         book.setUpdateAt(Instant.now());
         bookStore.update(book);
+    }
+
+    private void verifyIsbn13BookAvailable(final String isbn13) {
+        bookStore.findBookByIsbn13(isbn13)
+                .ifPresent(b -> {
+                    throw supplyIsbn13BookAlreadyExist(isbn13).get();
+                });
     }
 }

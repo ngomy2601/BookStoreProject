@@ -98,6 +98,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.description").value(book.getDescription()))
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.subtitle").value(book.getSubtitle()))
+                .andExpect(jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(jsonPath("$.isbn13").value(book.getIsbn13()))
+                .andExpect(jsonPath("$.price").value(book.getPrice()))
+                .andExpect(jsonPath("$.year").value(book.getYear()))
+                .andExpect(jsonPath("$.rating").value(book.getRating()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
     }
 
@@ -117,6 +123,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.description").value(book.getDescription()))
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.subtitle").value(book.getSubtitle()))
+                .andExpect(jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(jsonPath("$.isbn13").value(book.getIsbn13()))
+                .andExpect(jsonPath("$.price").value(book.getPrice()))
+                .andExpect(jsonPath("$.year").value(book.getYear()))
+                .andExpect(jsonPath("$.rating").value(book.getRating()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
     }
 

@@ -90,7 +90,7 @@ class BookServiceTest {
 
     @Test
     void shouldUpdateBook_OK() {
-        final var book = buildBook();
+        final var book = buildBook().withIsbn13("978-1-56619-909-4");
         final var updatedBook = buildBook().withId(book.getId());
 
         when(bookStore.findById(book.getId())).thenReturn(Optional.of(book));

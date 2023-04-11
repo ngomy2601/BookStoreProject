@@ -44,6 +44,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$[0].description").value(books.get(0).getDescription()))
                 .andExpect(jsonPath("$[0].createAt").value(books.get(0).getCreateAt().toString()))
                 .andExpect(jsonPath("$[0].image").value(books.get(0).getImage()))
+                .andExpect(jsonPath("$[0].subtitle").value(books.get(0).getSubtitle()))
+                .andExpect(jsonPath("$[0].publisher").value(books.get(0).getPublisher()))
+                .andExpect(jsonPath("$[0].isbn13").value(books.get(0).getIsbn13()))
+                .andExpect(jsonPath("$[0].price").value(books.get(0).getPrice()))
+                .andExpect(jsonPath("$[0].year").value(books.get(0).getYear()))
+                .andExpect(jsonPath("$[0].rating").value(books.get(0).getRating()))
                 .andExpect(jsonPath("$[0].userId").value(books.get(0).getUserId().toString()));
 
         verify(bookService).findAll();

@@ -121,6 +121,26 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockAdmin
+    void shouldFind_OK() throws Exception {
+        final var book = buildBook();
+        final var expected = buildBooks();
+
+        when(bookService.find(book.getTitle())).thenReturn(expected);
+
+        get(BASE_URL + "/find?keyword=" + book.getTitle())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(expected.size()))
+                .andExpect(jsonPath("$[0].id").value(expected.get(0).getId().toString()))
+                .andExpect(jsonPath("$[0].title").value(expected.get(0).getTitle()))
+                .andExpect(jsonPath("$[0].author").value(expected.get(0).getAuthor()))
+                .andExpect(jsonPath("$[0].description").value(expected.get(0).getDescription()))
+                .andExpect(jsonPath("$[0].userId").value(expected.get(0).getUserId().toString()));
+
+        verify(bookService).find(book.getTitle());
+    }
+
+    @Test
     void shouldThrowExceptionWhenUpdate_OK() throws Exception {
         final var book = buildBook();
 

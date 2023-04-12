@@ -1,7 +1,9 @@
 package com.example.bookstoreproject.api.auth;
 
+import com.example.bookstoreproject.domain.auths.GoogleLoginService;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,6 +24,8 @@ public class AuthController {
 
     private final JwtTokenService jwtTokenService;
 
+    private final GoogleLoginService googleLoginService;
+
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
@@ -35,5 +39,18 @@ public class AuthController {
         } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
             throw supplyUnauthorizedError().get();
         }
+    }
+
+    @Operation(summary = "User login by google account")
+    @PostMapping("/google")
+    public JwtTokenResponseDTO loginGoogle(@RequestBody TokenRequestDTO tokenRequestDTO) {
+
+        return generateToken((JwtUserDetails) googleLoginService.loginGoogle(tokenRequestDTO.getIdToken()));
+    }
+
+    private JwtTokenResponseDTO generateToken(final JwtUserDetails jwtUserDetails) {
+        return JwtTokenResponseDTO.builder()
+                .token(jwtTokenService.generateToken(jwtUserDetails))
+                .build();
     }
 }

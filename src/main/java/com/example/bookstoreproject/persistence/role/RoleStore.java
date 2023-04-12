@@ -22,4 +22,8 @@ public class RoleStore {
                 .map(RoleEntity::getId)
                 .orElseThrow(() -> new NotFoundException("Role not found - " + roleName));
     }
+
+    public String findRoleName(final UUID roleId) {
+        return roleRepository.findRoleName(roleId);
+    }
 }

@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 
 import static com.example.bookstoreproject.fakes.AuthFakes.buildAuthentication;
 import static com.example.bookstoreproject.fakes.JwtUserDetailFakes.buildJwtUserDetails;
-import static com.example.bookstoreproject.fakes.UserFakes.buildUser;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -56,13 +55,12 @@ class AuthControllerTest extends AbstractControllerTest {
     void shouldLoginGoogle_OK() throws Exception {
         final var tokenRequest = new TokenRequestDTO(randomAlphabetic(3, 10));
         final var token = randomAlphabetic(3, 10);
-        final var user = buildUser();
         final JwtUserDetails userDetails = buildJwtUserDetails();
 
         when(googleLoginService.loginGoogle(tokenRequest.getIdToken())).thenReturn(userDetails);
         when(jwtTokenService.generateToken(userDetails)).thenReturn(token);
 
-        post("/api/v1/auths/google", tokenRequest)
+        post("/api/v1/auth/google", tokenRequest)
                 .andExpect(jsonPath("$.token").value(token));
 
         verify(googleLoginService).loginGoogle(tokenRequest.getIdToken());

@@ -11,6 +11,6 @@ import static java.util.UUID.randomUUID;
 @UtilityClass
 public class JwtUserDetailFakes {
     public static JwtUserDetails buildJwtUserDetails() {
-        return new JwtUserDetails(randomUUID(), "user", "123123", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        return new JwtUserDetails(randomUUID(), "user@gmail.com", "123123", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

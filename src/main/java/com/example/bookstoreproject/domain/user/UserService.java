@@ -1,7 +1,10 @@
 package com.example.bookstoreproject.domain.user;
 
+import com.example.bookstoreproject.domain.auths.JwtUserDetailsService;
+import com.example.bookstoreproject.persistence.role.RoleStore;
 import com.example.bookstoreproject.persistence.user.UserStore;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,7 @@ import static com.example.bookstoreproject.api.user.UserValidation.validateUserC
 import static com.example.bookstoreproject.api.user.UserValidation.validateUserUpdate;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUserNotFound;
 import static com.example.bookstoreproject.domain.user.UserError.supplyUsernameExisted;
+import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -20,6 +24,10 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class UserService {
     private final UserStore userStore;
 
+    private final RoleStore roleStore;
+
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final FacebookService facebookService;
 
     public List<User> findAll() {
         return userStore.findAll();
@@ -66,5 +74,26 @@ public class UserService {
 
     public void delete(final UUID id) {
         userStore.delete(id);
+    }
+
+    public UserDetails loginWithFacebook(final String facebookToken) {
+        final SocialUser socialUser = facebookService.parseToken(facebookToken);
+
+        final Optional<User> userFound = userStore.findByUsername(socialUser.getUsername());
+
+        if (userFound.isEmpty()) {
+            final User user = User.builder()
+                    .username(socialUser.getUsername())
+                    .password(randomUUID().toString())
+                    .firstName(socialUser.getFirstName())
+                    .lastName(socialUser.getLastName())
+                    .roleId(roleStore.findByName("CONTRIBUTOR").getId())
+                    .build();
+
+            userStore.create(user);
+            return jwtUserDetailsService.loadUserByUsername(user.getUsername());
+        }
+
+        return jwtUserDetailsService.loadUserByUsername(userFound.get().getUsername());
     }
 }

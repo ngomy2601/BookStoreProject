@@ -28,7 +28,7 @@ public class JWTWebSecurityConfig {
     };
 
     private static final String[] LOGIN_RESOURCE = {
-            "/api/v1/auth"
+            "/api/v1/auth/**"
     };
 
     private final JwtRequestFilter jwtRequestFilter;
@@ -68,6 +68,9 @@ public class JWTWebSecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .oauth2Login()
+                .permitAll()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

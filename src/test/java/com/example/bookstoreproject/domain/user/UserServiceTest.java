@@ -140,7 +140,7 @@ class UserServiceTest {
         user.setUsername(socialUser.getUsername());
 
         when(facebookService.parseToken(anyString())).thenReturn(socialUser);
-        when(roleStore.findByName(anyString())).thenReturn(role);
+        when(roleStore.findIdByName(anyString())).thenReturn(role.getId());
         when(userService.loginWithFacebook(accessToken)).thenReturn(userDetails);
 
         when(userStore.create(any(User.class))).thenReturn(user);

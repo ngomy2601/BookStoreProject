@@ -20,5 +20,11 @@ public class Book {
     private Instant createAt;
     private Instant updateAt;
     private String image;
+    private String subtitle;
+    private String publisher;
+    private String isbn13;
+    private String price;
+    private Integer year;
+    private Double rating;
     private UUID userId;
 }

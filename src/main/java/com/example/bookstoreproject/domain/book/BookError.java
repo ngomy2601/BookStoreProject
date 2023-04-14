@@ -15,4 +15,8 @@ public class BookError {
     public static Supplier<BadRequestException> supplierBookTitleExisted(final String title) {
         return () -> new BadRequestException("Book with %s is existed", title);
     }
+
+    public static Supplier<BadRequestException> supplyIsbn13BookAlreadyExist(final String isbn13) {
+        return () -> new BadRequestException("Book with isbn13 %s already exist", isbn13);
+    }
 }

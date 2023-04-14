@@ -14,6 +14,7 @@ import static com.example.bookstoreproject.fakes.BookFakes.buildBook;
 import static com.example.bookstoreproject.fakes.BookFakes.buildBooks;
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -65,11 +66,13 @@ class BookServiceTest {
 
     @Test
     void shouldCreateBook_OK() {
-        final var book = buildBook();
         final var userId = randomUUID();
+        final var book = buildBook()
+                .withRating(0.0)
+                .withUserId(userId);
 
         when(authsProvider.getCurrentUserId()).thenReturn(userId);
-        when(bookStore.create(book)).thenReturn(book);
+        when(bookStore.create(any(Book.class))).thenReturn(book);
 
         final var createdBook = bookService.create(book);
 
@@ -82,12 +85,12 @@ class BookServiceTest {
         assertEquals(book.getUserId(), userId);
 
         verify(authsProvider).getCurrentUserId();
-        verify(bookStore).create(book);
+        verify(bookStore).create(any(Book.class));
     }
 
     @Test
     void shouldUpdateBook_OK() {
-        final var book = buildBook();
+        final var book = buildBook().withIsbn13("978-1-56619-909-4");
         final var updatedBook = buildBook().withId(book.getId());
 
         when(bookStore.findById(book.getId())).thenReturn(Optional.of(book));

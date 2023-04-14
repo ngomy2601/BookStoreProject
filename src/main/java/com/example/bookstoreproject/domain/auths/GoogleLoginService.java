@@ -30,18 +30,18 @@ public class GoogleLoginService {
                 .orElseGet(() -> createNewGoogleUser(googleAccount));
     }
 
-    private JwtUserDetails getJwtUserDetails(User user) {
+    private JwtUserDetails getJwtUserDetails(final User user) {
         final String roleName = roleStore.findRoleName(user.getRoleId());
         return new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), createAuthorities(roleName));
     }
 
-    private JwtUserDetails createNewGoogleUser(GoogleTokenPayload googleAccount) {
+    private JwtUserDetails createNewGoogleUser(final GoogleTokenPayload googleAccount) {
         final UUID roleId = roleStore.findIdByName("CONTRIBUTOR");
         final User newUser = createUser(googleAccount, roleId);
         return new JwtUserDetails(newUser.getId(), newUser.getUsername(), newUser.getPassword(), createAuthorities("CONTRIBUTOR"));
     }
 
-    private User createUser(GoogleTokenPayload googleAccount, UUID roleId) {
+    private User createUser(final GoogleTokenPayload googleAccount, UUID roleId) {
         final User newUser = User.builder()
                 .username(googleAccount.getEmail())
                 .password(UUID.randomUUID().toString())

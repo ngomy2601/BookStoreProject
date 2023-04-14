@@ -43,7 +43,7 @@ public class AuthController {
 
     @Operation(summary = "User login by google account")
     @PostMapping("/google")
-    public JwtTokenResponseDTO loginGoogle(@RequestBody TokenRequestDTO tokenRequestDTO) {
+    public JwtTokenResponseDTO loginGoogle(final @RequestBody TokenRequestDTO tokenRequestDTO) {
 
         return generateToken((JwtUserDetails) googleLoginService.loginGoogle(tokenRequestDTO.getIdToken()));
     }

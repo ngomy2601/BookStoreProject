@@ -1,6 +1,7 @@
 package com.example.bookstoreproject.api.auth;
 
 import com.example.bookstoreproject.api.AbstractControllerTest;
+import com.example.bookstoreproject.domain.auths.GoogleLoginService;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 
 import static com.example.bookstoreproject.fakes.AuthFakes.buildAuthentication;
+import static com.example.bookstoreproject.fakes.JwtUserDetailFakes.buildJwtUserDetails;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +33,9 @@ class AuthControllerTest extends AbstractControllerTest {
     private JwtTokenService jwtTokenService;
 
     @MockBean
+    private GoogleLoginService googleLoginService;
+
+    @MockBean
     private AuthenticationManager authenticationManager;
 
     @Test
@@ -43,5 +49,21 @@ class AuthControllerTest extends AbstractControllerTest {
                 .thenReturn(token);
 
         post(BASE_URL, auth).andExpect(status().isOk()).andExpect(jsonPath("$.token").value(token));
+    }
+
+    @Test
+    void shouldLoginGoogle_OK() throws Exception {
+        final var tokenRequest = new TokenRequestDTO(randomAlphabetic(3, 10));
+        final var token = randomAlphabetic(3, 10);
+        final JwtUserDetails userDetails = buildJwtUserDetails();
+
+        when(googleLoginService.loginGoogle(tokenRequest.getIdToken())).thenReturn(userDetails);
+        when(jwtTokenService.generateToken(userDetails)).thenReturn(token);
+
+        post("/api/v1/auth/google", tokenRequest)
+                .andExpect(jsonPath("$.token").value(token));
+
+        verify(googleLoginService).loginGoogle(tokenRequest.getIdToken());
+        verify(jwtTokenService).generateToken(userDetails);
     }
 }

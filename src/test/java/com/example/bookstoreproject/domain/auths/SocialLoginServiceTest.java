@@ -8,16 +8,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.bookstoreproject.domain.auths.UserDetailsMapper.toUserDetails;
 import static com.example.bookstoreproject.fakes.GoogleTokenPayloadFakes.buildToken;
 import static com.example.bookstoreproject.fakes.JwtUserDetailFakes.buildJwtUserDetails;
-import static com.example.bookstoreproject.fakes.RoleFakes.buildRole;
-import static com.example.bookstoreproject.fakes.SocialTokenPayloadFakes.buildTokenSocial;
 import static com.example.bookstoreproject.fakes.UserFakes.buildUser;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -102,29 +100,27 @@ class SocialLoginServiceTest {
         verify(roleStore).findIdByName(anyString());
         verify(userStore).create(any());
     }
-
     @Test
     void shouldLoginFacebook_OK() {
-        final SocialTokenPayload tokenPayload = buildTokenSocial();
-        final var user = buildUser().withUsername(tokenPayload.getUsername());
-        final var role = buildRole();
-        final var accessToken = randomAlphabetic(3, 10);
+        final SocialTokenPayload tokenPayload = buildToken();
+        final var user = buildUser();
+        final var token = randomAlphabetic(3, 10);
+        final var authorities = randomAlphabetic(3, 10);
 
-        final UserDetails userDetails = toUserDetails(user, role.getName());
+        user.setUsername(tokenPayload.getUsername());
 
-        when(facebookTokenVerifierService.verifyFacebookToken(accessToken))
-                .thenReturn(tokenPayload);
-        when(userStore.findByUsername(user.getUsername()))
-                .thenReturn(Optional.of(user));
-        when(roleStore.findIdByName(any(String.class)))
-                .thenReturn(role.getId());
+        final JwtUserDetails userDetails = new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority(authorities)));
 
-        final var actual = socialLoginService.loginFacebook(accessToken);
+        when(facebookTokenVerifierService.verifyFacebookToken(token)).thenReturn(tokenPayload);
+        when(userStore.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(roleStore.findRoleName(user.getRoleId())).thenReturn(authorities);
+
+        final var actual = socialLoginService.loginFacebook(token);
 
         assertEquals(userDetails, actual);
 
-        verify(facebookTokenVerifierService).verifyFacebookToken(accessToken);
+        verify(facebookTokenVerifierService).verifyFacebookToken(token);
         verify(userStore).findByUsername(user.getUsername());
+        verify(roleStore).findRoleName(user.getRoleId());
     }
-
 }

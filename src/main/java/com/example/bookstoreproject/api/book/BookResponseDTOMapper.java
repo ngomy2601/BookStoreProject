@@ -18,6 +18,12 @@ public class BookResponseDTOMapper {
                 .createAt(book.getCreateAt())
                 .updateAt(book.getUpdateAt())
                 .image(book.getImage())
+                .subtitle(book.getSubtitle())
+                .publisher(book.getPublisher())
+                .isbn13(book.getIsbn13())
+                .price(book.getPrice())
+                .year(book.getYear())
+                .rating(book.getRating())
                 .userId(book.getUserId())
                 .build();
     }

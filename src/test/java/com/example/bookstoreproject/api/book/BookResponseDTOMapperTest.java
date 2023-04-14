@@ -12,16 +12,22 @@ class BookResponseDTOMapperTest {
     @Test
     void shouldToBookResponseDTO_OK() {
         final var book = buildBook();
-        final var bookResponseDTODTO = toBookResponseDTO(book);
+        final var bookResponseDTO = toBookResponseDTO(book);
 
-        assertEquals(book.getId(), bookResponseDTODTO.getId());
-        assertEquals(book.getTitle(), bookResponseDTODTO.getTitle());
-        assertEquals(book.getAuthor(), bookResponseDTODTO.getAuthor());
-        assertEquals(book.getDescription(), bookResponseDTODTO.getDescription());
-        assertEquals(book.getCreateAt(), bookResponseDTODTO.getCreateAt());
-        assertEquals(book.getUpdateAt(), bookResponseDTODTO.getUpdateAt());
-        assertEquals(book.getImage(), bookResponseDTODTO.getImage());
-        assertEquals(book.getUserId(), bookResponseDTODTO.getUserId());
+        assertEquals(book.getId(), bookResponseDTO.getId());
+        assertEquals(book.getTitle(), bookResponseDTO.getTitle());
+        assertEquals(book.getAuthor(), bookResponseDTO.getAuthor());
+        assertEquals(book.getDescription(), bookResponseDTO.getDescription());
+        assertEquals(book.getCreateAt(), bookResponseDTO.getCreateAt());
+        assertEquals(book.getUpdateAt(), bookResponseDTO.getUpdateAt());
+        assertEquals(book.getImage(), bookResponseDTO.getImage());
+        assertEquals(book.getSubtitle(), bookResponseDTO.getSubtitle());
+        assertEquals(book.getPublisher(), bookResponseDTO.getPublisher());
+        assertEquals(book.getIsbn13(), bookResponseDTO.getIsbn13());
+        assertEquals(book.getPrice(), bookResponseDTO.getPrice());
+        assertEquals(book.getYear(), bookResponseDTO.getYear());
+        assertEquals(book.getRating(), bookResponseDTO.getRating());
+        assertEquals(book.getUserId(), bookResponseDTO.getUserId());
     }
 
     @Test

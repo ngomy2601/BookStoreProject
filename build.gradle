@@ -49,6 +49,9 @@ dependencies {
     implementation 'com.cloudinary:cloudinary-taglib:1.33.0'
     implementation 'com.google.api-client:google-api-client:2.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz:3.0.4'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
 

@@ -87,7 +87,7 @@ public class UserService {
                     .password(randomUUID().toString())
                     .firstName(socialUser.getFirstName())
                     .lastName(socialUser.getLastName())
-                    .roleId(roleStore.findByName("CONTRIBUTOR").getId())
+                    .roleId(roleStore.findIdByName("CONTRIBUTOR"))
                     .build();
 
             userStore.create(user);

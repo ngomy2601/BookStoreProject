@@ -1,13 +1,13 @@
 package com.example.bookstoreproject.fakes;
 
-import com.example.bookstoreproject.domain.auths.GoogleTokenPayload;
+import com.example.bookstoreproject.domain.auths.SocialTokenPayload;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class GoogleTokenPayloadFakes {
 
-    public static GoogleTokenPayload buildToken() {
-        return GoogleTokenPayload.builder()
+    public static SocialTokenPayload buildToken() {
+        return SocialTokenPayload.builder()
                 .email("user@gmail.com")
                 .firstName("test")
                 .lastName("test")

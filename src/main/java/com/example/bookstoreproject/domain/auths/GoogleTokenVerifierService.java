@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-import static com.example.bookstoreproject.domain.auths.GoogleTokenPayloadMapper.toGoogleTokenPayload;
+import static com.example.bookstoreproject.domain.auths.SocialTokenPayloadMapper.toSocialTokenPayload;
 
 @Service
 @RequiredArgsConstructor
 public class GoogleTokenVerifierService {
     private final GoogleIdTokenVerifier tokenVerifier;
 
-    public GoogleTokenPayload googleIdTokenVerifier(final String idToken) {
+    public SocialTokenPayload googleIdTokenVerifier(final String idToken) {
         try {
             final var googleIdToken = tokenVerifier.verify(idToken);
             final GoogleIdToken.Payload payload = googleIdToken.getPayload();
-            return toGoogleTokenPayload(payload);
+            return toSocialTokenPayload(payload);
         } catch (GeneralSecurityException | IOException e) {
             throw new RuntimeException(e);
         }

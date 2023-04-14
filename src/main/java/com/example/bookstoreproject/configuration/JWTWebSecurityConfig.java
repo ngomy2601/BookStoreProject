@@ -29,7 +29,7 @@ public class JWTWebSecurityConfig {
     };
 
     private static final String[] LOGIN_RESOURCE = {
-            "/api/v1/auth"
+            "/api/v1/auth/**"
     };
 
     private static final String[] GOOGLE_LOGIN_RESOURCE = {
@@ -75,6 +75,9 @@ public class JWTWebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/google").permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .oauth2Login()
+                .permitAll()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

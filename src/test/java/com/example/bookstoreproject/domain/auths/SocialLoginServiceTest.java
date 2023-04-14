@@ -8,7 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GoogleLoginServiceTest {
+class SocialLoginServiceTest {
 
     @Mock
     private UserStore userStore;
@@ -32,16 +34,18 @@ class GoogleLoginServiceTest {
     private GoogleTokenVerifierService googleTokenVerifierService;
 
     @Mock
+    private FacebookTokenVerifierService facebookTokenVerifierService;
+
+    @Mock
     private RoleStore roleStore;
 
-
     @InjectMocks
-    private GoogleLoginService googleLoginService;
+    private SocialLoginService socialLoginService;
 
 
     @Test
     void shouldLoginGoogle_OK() {
-        final GoogleTokenPayload tokenPayload = buildToken();
+        final SocialTokenPayload tokenPayload = buildToken();
         final var user = buildUser();
         final var authorities = randomAlphabetic(3,10);
 
@@ -53,7 +57,7 @@ class GoogleLoginServiceTest {
         when(userStore.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(roleStore.findRoleName(user.getRoleId())).thenReturn(authorities);
 
-        final var actual = googleLoginService.loginGoogle(anyString());
+        final var actual = socialLoginService.loginGoogle(anyString());
 
         assertEquals(userDetails, actual);
 
@@ -65,7 +69,7 @@ class GoogleLoginServiceTest {
 
     @Test
     void shouldLoginGoogle_CreateNewUser() {
-        final GoogleTokenPayload tokenPayload = buildToken();
+        final SocialTokenPayload tokenPayload = buildToken();
 
         when(googleTokenVerifierService.googleIdTokenVerifier(anyString())).thenReturn(tokenPayload);
         when(userStore.findByUsername(tokenPayload.getEmail())).thenReturn(Optional.empty());
@@ -88,12 +92,35 @@ class GoogleLoginServiceTest {
         final JwtUserDetails userDetails = buildJwtUserDetails();
 
 
-        final var actual = googleLoginService.loginGoogle(anyString());
+        final var actual = socialLoginService.loginGoogle(anyString());
         assertEquals(userDetails, actual);
 
         verify(googleTokenVerifierService).googleIdTokenVerifier(anyString());
         verify(userStore).findByUsername(tokenPayload.getEmail());
         verify(roleStore).findIdByName(anyString());
         verify(userStore).create(any());
+    }
+    @Test
+    void shouldLoginFacebook_OK() {
+        final SocialTokenPayload tokenPayload = buildToken();
+        final var user = buildUser();
+        final var token = randomAlphabetic(3, 10);
+        final var authorities = randomAlphabetic(3, 10);
+
+        user.setUsername(tokenPayload.getUsername());
+
+        final JwtUserDetails userDetails = new JwtUserDetails(user.getId(), user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority(authorities)));
+
+        when(facebookTokenVerifierService.verifyFacebookToken(token)).thenReturn(tokenPayload);
+        when(userStore.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        when(roleStore.findRoleName(user.getRoleId())).thenReturn(authorities);
+
+        final var actual = socialLoginService.loginFacebook(token);
+
+        assertEquals(userDetails, actual);
+
+        verify(facebookTokenVerifierService).verifyFacebookToken(token);
+        verify(userStore).findByUsername(user.getUsername());
+        verify(roleStore).findRoleName(user.getRoleId());
     }
 }

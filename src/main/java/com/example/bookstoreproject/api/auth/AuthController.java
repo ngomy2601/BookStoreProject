@@ -1,8 +1,9 @@
 package com.example.bookstoreproject.api.auth;
 
-import com.example.bookstoreproject.domain.auths.GoogleLoginService;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
+import com.example.bookstoreproject.domain.auths.SocialLoginService;
+import com.example.bookstoreproject.domain.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,9 +25,11 @@ public class AuthController {
 
     private final JwtTokenService jwtTokenService;
 
-    private final GoogleLoginService googleLoginService;
+    private final SocialLoginService socialLoginService;
 
     private final AuthenticationManager authenticationManager;
+
+    private final UserService userService;
 
     @PostMapping
     public JwtTokenResponseDTO login(final @RequestBody LoginDTO loginDTO) throws Exception {
@@ -41,16 +44,28 @@ public class AuthController {
         }
     }
 
+
     @Operation(summary = "User login by google account")
     @PostMapping("/google")
-    public JwtTokenResponseDTO loginGoogle(final @RequestBody TokenRequestDTO tokenRequestDTO) {
+    public JwtTokenResponseDTO loginGoogle(@RequestBody TokenRequestDTO tokenRequestDTO) {
 
-        return generateToken((JwtUserDetails) googleLoginService.loginGoogle(tokenRequestDTO.getIdToken()));
+        return generateToken((JwtUserDetails) socialLoginService.loginGoogle(tokenRequestDTO.getIdToken()));
+    }
+
+    @PostMapping("/facebook")
+    public JwtTokenResponseDTO loginWithFacebook(final @RequestBody TokenRequestDTO tokenRequestDTO) {
+
+        return generateToken((JwtUserDetails) socialLoginService.loginFacebook(tokenRequestDTO.getIdToken()));
     }
 
     private JwtTokenResponseDTO generateToken(final JwtUserDetails jwtUserDetails) {
         return JwtTokenResponseDTO.builder()
                 .token(jwtTokenService.generateToken(jwtUserDetails))
                 .build();
+    }
+
+    private JwtTokenResponseDTO generateJwtToken(final JwtUserDetails userDetails) {
+        return JwtTokenResponseDTO.builder()
+                .token(jwtTokenService.generateToken(userDetails)).build();
     }
 }

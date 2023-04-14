@@ -3,6 +3,7 @@ package com.example.bookstoreproject.configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,6 +32,9 @@ public class JWTWebSecurityConfig {
             "/api/v1/auth/**"
     };
 
+    private static final String[] GOOGLE_LOGIN_RESOURCE = {
+            "/api/v1/auths/google"
+    };
     private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
@@ -43,7 +47,8 @@ public class JWTWebSecurityConfig {
         return (web) -> web
                 .ignoring()
                 .antMatchers(SWAGGER_RESOURCES)
-                .antMatchers(LOGIN_RESOURCE);
+                .antMatchers(LOGIN_RESOURCE)
+                .antMatchers(GOOGLE_LOGIN_RESOURCE);
     }
 
     @Bean
@@ -66,6 +71,8 @@ public class JWTWebSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests()
+                .antMatchers(HttpMethod.GET, "/api/v1/books/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/google").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

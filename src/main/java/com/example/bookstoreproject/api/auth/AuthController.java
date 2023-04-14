@@ -1,8 +1,10 @@
 package com.example.bookstoreproject.api.auth;
 
+import com.example.bookstoreproject.domain.auths.GoogleLoginService;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
 import com.example.bookstoreproject.domain.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +26,8 @@ public class AuthController {
 
     private final JwtTokenService jwtTokenService;
 
+    private final GoogleLoginService googleLoginService;
+
     private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
@@ -41,6 +45,7 @@ public class AuthController {
         }
     }
 
+
     @PostMapping("/facebook")
     public JwtTokenResponseDTO loginWithFacebook(final @RequestBody TokenRequestDTO tokenRequestDTO) {
         final UserDetails userDetails = userService.loginWithFacebook(tokenRequestDTO.getAccessToken());
@@ -51,6 +56,17 @@ public class AuthController {
     private JwtTokenResponseDTO generateJwtToken(final JwtUserDetails userDetails) {
         return JwtTokenResponseDTO.builder()
                 .token(jwtTokenService.generateToken(userDetails))
+
+    @Operation(summary = "User login by google account")
+    @PostMapping("/google")
+    public JwtTokenResponseDTO loginGoogle(final @RequestBody TokenRequestDTO tokenRequestDTO) {
+
+        return generateToken((JwtUserDetails) googleLoginService.loginGoogle(tokenRequestDTO.getIdToken()));
+    }
+
+    private JwtTokenResponseDTO generateToken(final JwtUserDetails jwtUserDetails) {
+        return JwtTokenResponseDTO.builder()
+                .token(jwtTokenService.generateToken(jwtUserDetails))
                 .build();
     }
 }

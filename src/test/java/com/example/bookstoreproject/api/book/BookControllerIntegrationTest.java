@@ -44,6 +44,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$[0].description").value(books.get(0).getDescription()))
                 .andExpect(jsonPath("$[0].createAt").value(books.get(0).getCreateAt().toString()))
                 .andExpect(jsonPath("$[0].image").value(books.get(0).getImage()))
+                .andExpect(jsonPath("$[0].subtitle").value(books.get(0).getSubtitle()))
+                .andExpect(jsonPath("$[0].publisher").value(books.get(0).getPublisher()))
+                .andExpect(jsonPath("$[0].isbn13").value(books.get(0).getIsbn13()))
+                .andExpect(jsonPath("$[0].price").value(books.get(0).getPrice()))
+                .andExpect(jsonPath("$[0].year").value(books.get(0).getYear()))
+                .andExpect(jsonPath("$[0].rating").value(books.get(0).getRating()))
                 .andExpect(jsonPath("$[0].userId").value(books.get(0).getUserId().toString()));
 
         verify(bookService).findAll();
@@ -65,6 +71,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.description").value(book.getDescription()))
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.subtitle").value(book.getSubtitle()))
+                .andExpect(jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(jsonPath("$.isbn13").value(book.getIsbn13()))
+                .andExpect(jsonPath("$.price").value(book.getPrice()))
+                .andExpect(jsonPath("$.year").value(book.getYear()))
+                .andExpect(jsonPath("$.rating").value(book.getRating()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
 
         verify(bookService).findById(book.getId());
@@ -86,6 +98,12 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.description").value(book.getDescription()))
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.subtitle").value(book.getSubtitle()))
+                .andExpect(jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(jsonPath("$.isbn13").value(book.getIsbn13()))
+                .andExpect(jsonPath("$.price").value(book.getPrice()))
+                .andExpect(jsonPath("$.year").value(book.getYear()))
+                .andExpect(jsonPath("$.rating").value(book.getRating()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
     }
 
@@ -105,7 +123,33 @@ class BookControllerIntegrationTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.description").value(book.getDescription()))
                 .andExpect(jsonPath("$.createAt").value(book.getCreateAt().toString()))
                 .andExpect(jsonPath("$.image").value(book.getImage()))
+                .andExpect(jsonPath("$.subtitle").value(book.getSubtitle()))
+                .andExpect(jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(jsonPath("$.isbn13").value(book.getIsbn13()))
+                .andExpect(jsonPath("$.price").value(book.getPrice()))
+                .andExpect(jsonPath("$.year").value(book.getYear()))
+                .andExpect(jsonPath("$.rating").value(book.getRating()))
                 .andExpect(jsonPath("$.userId").value(book.getUserId().toString()));
+    }
+
+    @Test
+    @WithMockAdmin
+    void shouldFind_OK() throws Exception {
+        final var book = buildBook();
+        final var expected = buildBooks();
+
+        when(bookService.find(book.getTitle())).thenReturn(expected);
+
+        get(BASE_URL + "/find?keyword=" + book.getTitle())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(expected.size()))
+                .andExpect(jsonPath("$[0].id").value(expected.get(0).getId().toString()))
+                .andExpect(jsonPath("$[0].title").value(expected.get(0).getTitle()))
+                .andExpect(jsonPath("$[0].author").value(expected.get(0).getAuthor()))
+                .andExpect(jsonPath("$[0].description").value(expected.get(0).getDescription()))
+                .andExpect(jsonPath("$[0].userId").value(expected.get(0).getUserId().toString()));
+
+        verify(bookService).find(book.getTitle());
     }
 
     @Test

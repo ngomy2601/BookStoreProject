@@ -30,6 +30,11 @@ public class BookController {
         return toBookResponseDTO(bookService.findById(id));
     }
 
+    @GetMapping("find")
+    public List<BookResponseDTO> find(final @RequestParam String keyword) {
+        return toBookResponseDTOs(bookService.find(keyword));
+    }
+
     @PostMapping
     public BookResponseDTO create(final @RequestBody BookRequestDTO bookDTO) {
         return toBookResponseDTO(bookService.create(toBook(bookDTO)));

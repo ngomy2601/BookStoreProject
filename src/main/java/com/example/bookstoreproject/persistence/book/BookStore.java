@@ -16,7 +16,13 @@ import static org.apache.commons.collections4.IterableUtils.toList;
 public class BookStore {
     private final BookRepository bookRepository;
 
-    public List<Book> findAll() {return toBooks(toList(bookRepository.findAll()));}
+    public List<Book> findAll() {
+        return toBooks(toList(bookRepository.findAll()));
+    }
+
+    public List<Book> find(final String keyword) {
+        return toBooks(bookRepository.find(keyword));
+    }
 
     public Book create(final Book book) {
         return toBook(bookRepository.save(toBookEntity(book)));
@@ -26,8 +32,13 @@ public class BookStore {
         return bookRepository.findById(id).map(BookEntityMapper::toBook);
     }
 
-    public Optional<Book> findByTitle(final String title){
+    public Optional<Book> findByTitle(final String title) {
         return bookRepository.findByTitle(title).map(BookEntityMapper::toBook);
+    }
+
+    public Optional<Book> findBookByIsbn13(final String isbn13) {
+        return bookRepository.findByIsbn13(isbn13)
+                .map(BookEntityMapper::toBook);
     }
 
     public Book update(final Book book) {

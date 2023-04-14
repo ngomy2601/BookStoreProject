@@ -7,9 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.example.bookstoreproject.fakes.RoleFakes.buildRoleEntity;
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,5 +37,16 @@ class RoleStoreTest {
         assertEquals(expected.getName(), actual.getName());
 
         verify(roleRepository).findById(role.getId());
+    }
+
+    @Test
+    void shouldFindById_Empty() {
+        final UUID roleId = randomUUID();
+        final String roleName = "";
+        when(roleRepository.findRoleName(roleId))
+                .thenReturn(roleName);
+
+        assertTrue(roleStore.findRoleName(roleId).isEmpty());
+        verify(roleRepository).findRoleName(roleId);
     }
 }

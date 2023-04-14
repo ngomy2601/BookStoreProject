@@ -1,6 +1,7 @@
 package com.example.bookstoreproject.api.auth;
 
 import com.example.bookstoreproject.api.AbstractControllerTest;
+import com.example.bookstoreproject.domain.auths.GoogleLoginService;
 import com.example.bookstoreproject.domain.auths.JwtTokenService;
 import com.example.bookstoreproject.domain.auths.JwtUserDetails;
 import com.example.bookstoreproject.domain.user.UserService;
@@ -19,6 +20,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +37,8 @@ class AuthControllerTest extends AbstractControllerTest {
 
     @MockBean
     private UserService userService;
+
+    private GoogleLoginService googleLoginService;
 
     @MockBean
     private AuthenticationManager authenticationManager;
@@ -75,5 +79,20 @@ class AuthControllerTest extends AbstractControllerTest {
         when(userService.loginWithFacebook(tokenRequestDTO.getAccessToken())).thenReturn(userDetails);
 
         post(BASE_URL + "/facebook", null).andExpect(status().isBadRequest());
+
+    void shouldLoginGoogle_OK() throws Exception {
+        final var tokenRequest = new TokenRequestDTO(randomAlphabetic(3, 10));
+        final var token = randomAlphabetic(3, 10);
+        final JwtUserDetails userDetails = buildJwtUserDetails();
+
+        when(googleLoginService.loginGoogle(tokenRequest.getIdToken())).thenReturn(userDetails);
+        when(jwtTokenService.generateToken(userDetails)).thenReturn(token);
+
+        post("/api/v1/auth/google", tokenRequest)
+                .andExpect(jsonPath("$.token").value(token));
+
+        verify(googleLoginService).loginGoogle(tokenRequest.getIdToken());
+        verify(jwtTokenService).generateToken(userDetails);
+
     }
 }
